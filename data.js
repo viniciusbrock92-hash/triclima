@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-08T17:54",
+ "geradoEm": "2026-11-08T18:00",
  "tpAtualizado": "08/11/2026 06:20",
  "tpTreinos": [
   {
@@ -18,7 +18,7 @@ window.TRI_DATA = {
   "2026-11-09"
  ],
  "strava": {
-  "geradoEm": "2026-11-08T17:54",
+  "geradoEm": "2026-11-08T18:00",
   "periodo": [
    {
     "metrica": "horas",
@@ -997,7 +997,7 @@ window.TRI_DATA = {
    ]
   ],
   "zonas": {
-   "ftp": 175,
+   "ftp": 283,
    "fc": [
     [
      0,
@@ -1023,26 +1023,26 @@ window.TRI_DATA = {
    "corrida_ms": [
     [
      0,
-     2.224
+     2.962
     ],
     [
-     2.224,
-     2.584
+     2.962,
+     3.441
     ],
     [
-     2.584,
-     2.878
+     3.441,
+     3.833
     ],
     [
-     2.878,
-     3.075
+     3.833,
+     4.095
     ],
     [
-     3.075,
-     3.271
+     4.095,
+     4.356
     ],
     [
-     3.271,
+     4.356,
      null
     ]
    ]
