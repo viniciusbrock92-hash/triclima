@@ -87,7 +87,7 @@ td:first-child,th:first-child{text-align:left}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
 .btn{background:var(--acc);color:#04112a;border:0;border-radius:10px;padding:10px;font-weight:700;width:100%;font-size:14px}
 .tabs{position:sticky;top:0;z-index:4;display:flex;gap:4px;max-width:640px;margin:8px auto 0;padding:0 12px}
-.tabs button{flex:1;background:var(--card2);border:1px solid var(--line);color:var(--mut);border-radius:12px;padding:10px 4px;font-size:14px}
+.tabs button{flex:1;white-space:nowrap;background:var(--card2);border:1px solid var(--line);color:var(--mut);border-radius:12px;padding:10px 2px;font-size:13px}
 .tabs button.on{background:#1d3157;color:var(--tx);border-color:var(--acc);font-weight:700}
 main.tab[hidden]{display:none}
 main.tab{padding:12px;display:flex;flex-direction:column;gap:12px;max-width:640px;margin:0 auto}
@@ -117,11 +117,12 @@ footer a{color:var(--mut)}
   <div class="upd" id="upd">—</div>
 </header>
 
-<nav class="tabs" id="tabs"><button data-t="tabTreino" class="on">🏁 Treinos</button><button data-t="app">☁️ Tempo</button><button data-t="tabPerf">📈 Performance</button></nav>
+<nav class="tabs" id="tabs"><button data-t="tabTreino" class="on">🏁 Treinos</button><button data-t="tabSug">💡 Sugestões</button><button data-t="app">☁️ Tempo</button><button data-t="tabPerf">📈 Perf.</button></nav>
 <main id="tabTreino" class="tab"></main>
 <main id="app" class="tab" hidden>
   <div class="loading">Carregando previsão…</div>
 </main>
+<main id="tabSug" class="tab" hidden></main>
 <main id="tabPerf" class="tab" hidden></main>
 
 <div class="sheet" id="sheet"><div class="in">
@@ -450,7 +451,7 @@ function render(){
   $("#segSport").addEventListener("click", e=>{const b=e.target.closest("button"); if(!b) return; winSport=b.dataset.s; [...$("#segSport").children].forEach(x=>x.classList.toggle("on",x===b)); renderWins();});
   $("#segDur").addEventListener("click", e=>{const b=e.target.closest("button"); if(!b) return; winDur=+b.dataset.h; [...$("#segDur").children].forEach(x=>x.classList.toggle("on",x===b)); renderWins();});
   ["#nSport","#nDur","#nInt","#nHora"].forEach(id=>$(id).addEventListener("change",renderNutri));
-  renderDay(); renderWins(); renderConf(); renderRace(); renderNutri(); renderTreinos();
+  renderDay(); renderWins(); renderConf(); renderRace(); renderNutri(); renderTreinos(); renderSugestoes();
 }
 
 function next3hRain(ni){
@@ -696,7 +697,7 @@ function renderTreinos(){
         : `<div class="alert g"><span>⏰</span><span>Melhor horário: <b>${String(b.h).padStart(2,"0")}:00–${String(fim).padStart(2,"0")}:00</b> · nota ${b.sc} · ${r0(o.temperature_2m)}° · vento ${r0(o.wind_speed_10m)} ${card(o.wind_direction_10m)} · chuva ${o.precipitation_probability??"–"}%</span></div>`;
       sug += `<details style="margin-top:8px"><summary class="muted">Hidratação e alimentação</summary><div style="margin-top:8px">${nutriPlan(t.sp,t.dur,t.it,w.at,w.hum)}</div></details>`;
     }
-    html+=`<section class="card"><h2>${diaTxt} · ${SP_NOME[t.sp]} <span class="badge" style="background:#334155;color:var(--tx)">${t.fonte==="TrainingPeaks"?"TP":"meu"}</span></h2>
+    html+=`<section class="card"><h2>${diaTxt} · ${SP_NOME[t.sp]} <span class="badge" style="background:#334155;color:var(--tx)">${t.fonte==="TrainingPeaks"?"TP":t.fonte==="sugestão"?"💡":"meu"}</span></h2>
       <div style="font-weight:700;font-size:17px">${esc(t.titulo)}</div>
       <div class="muted" style="margin:2px 0 8px">${Math.floor(t.dur/60)}h${String(t.dur%60).padStart(2,"0")} · ${IT_NOME[t.it]}${t.desc?" · "+esc(t.desc):""}</div>
       ${sug}
@@ -719,6 +720,153 @@ function renderTreinos(){
     store.set("treinos",meusTreinos); renderTreinos();
   };
   box.querySelectorAll("[data-del]").forEach(bt=>bt.onclick=()=>{meusTreinos=meusTreinos.filter(x=>x.id!==bt.dataset.del);store.set("treinos",meusTreinos);renderTreinos();});
+}
+
+
+/* ===================== SUGESTÕES DE TREINO (com base no histórico do Strava) ===================== */
+const IRONMAN_DATA = "2027-06-10";
+function alvosAtleta(S){
+  const rec = Object.fromEntries((S.recordes||[]).map(([k,v,u,d])=>[k,{v,d}]));
+  const hoje = Date.now();
+  const recente = (r,meses)=> r && (hoje-Date.parse(r.d+"T12:00:00"))/864e5 < meses*30.5;
+  // FTP estimado: maior entre o FTP do Strava, 1h recente e 95% dos 20 min (até 18 meses)
+  const cand=[S.zonas.ftp||0];
+  if(recente(rec.GreatestPower1hr,12)) cand.push(rec.GreatestPower1hr.v);
+  if(recente(rec.GreatestPower20min,18)) cand.push(Math.round(rec.GreatestPower20min.v*0.95));
+  const ftp=Math.max(...cand);
+  // ritmo de 10 km: recorde de 10k, ou 5k × 1,04
+  const p10 = rec.Fastest10k ? rec.Fastest10k.v/10 : rec.Fastest5k ? rec.Fastest5k.v/5*1.04 : 330;
+  // natação: CSS aproximado = melhor ritmo médio em nados ≥1.000 m nas últimas 6 semanas
+  const nados=(S.historico||[]).filter(h=>h[1]==="Swim"&&h[3]>=1000&&h[5]);
+  const css = nados.length ? Math.min(...nados.map(h=>h[5])) : 115;
+  return { ftp, ftpStrava:S.zonas.ftp, p10, css,
+    corrida:{ z2:[p10*1.24,p10*1.36], limiar:[p10*1.03,p10*1.07], vo2:[p10*0.95,p10*0.99], prova:[p10*1.10,p10*1.16] },
+    bike:{ z1:[0.45*ftp,0.55*ftp], z2:[0.56*ftp,0.75*ftp], sweet:[0.88*ftp,0.93*ftp], limiar:[0.95*ftp,1.0*ftp] },
+    nado:{ z2:[css+6,css+12], css:[css-2,css+2] } };
+}
+const mmssS = s => Math.floor(s/60)+":"+String(Math.round(s%60)).padStart(2,"0");
+const faixaP = a => `${mmssS(a[0])}–${mmssS(a[1])}/km`;
+const faixaW = a => `${Math.round(a[0]/5)*5}–${Math.round(a[1]/5)*5} W`;
+const faixaN = a => `${mmssS(a[0])}–${mmssS(a[1])}/100 m`;
+
+function analisarHistorico(S, hoje){
+  const H=(S.historico||[]).map(h=>({dia:h[0],tipo:h[1],min:h[2],dist:h[3],re:h[4],ritmo:h[5],hora:h[6]}));
+  const t0=Date.parse(hoje+"T00:00:00Z"); const idade=d=>Math.round((t0-Date.parse(d+"T00:00:00Z"))/864e5);
+  const mod=t=>t==="Swim"?"swim":/Ride/.test(t)?"bike":/Run/.test(t)?"run":"outro";
+  const ult={}; H.forEach(h=>{const m=mod(h.tipo); if(!ult[m]||h.dia>ult[m]) ult[m]=h.dia;});
+  const dias = m => ult[m]? idade(ult[m]) : 99;
+  const jan=(a,b)=>H.filter(h=>idade(h.dia)>=a&&idade(h.dia)<b);
+  const horas=(arr,m)=>arr.filter(h=>!m||mod(h.tipo)===m).reduce((s,h)=>s+h.min,0)/60;
+  const u14=jan(0,14), u7=jan(0,7);
+  const share={swim:horas(u14,"swim"),bike:horas(u14,"bike"),run:horas(u14,"run")}; const tot=share.swim+share.bike+share.run||1;
+  const intensos=u7.filter(h=>h.re!=null&&h.min>=20&&h.re/(h.min/60)>=55).length;
+  const longaoBike=H.filter(h=>mod(h.tipo)==="bike"&&h.min>=150).map(h=>idade(h.dia));
+  const longaoRun=H.filter(h=>mod(h.tipo)==="run"&&h.min>=75).map(h=>idade(h.dia));
+  const dSet={}; H.forEach(h=>{(dSet[h.dia]=dSet[h.dia]||new Set()).add(mod(h.tipo));});
+  const bricks=Object.entries(dSet).filter(([d,s])=>s.has("bike")&&s.has("run")).map(([d])=>idade(d));
+  const corridasLeves=u14.filter(h=>mod(h.tipo)==="run"&&h.ritmo&&h.min>=25&&h.min<=90);
+  const ritmoLeve=corridasLeves.length? corridasLeves.reduce((s,h)=>s+h.ritmo*h.min,0)/corridasLeves.reduce((s,h)=>s+h.min,0) : null;
+  const semanas4 = horas(jan(0,28))/4;
+  const habitual = m => { const c={}; H.filter(h=>mod(h.tipo)===m&&h.hora!=null).forEach(h=>c[h.hora]=(c[h.hora]||0)+1); const e=Object.entries(c).sort((a,b)=>b[1]-a[1])[0]; return e&&e[1]>=2?+e[0]:null; };
+  return {dias, share:{swim:share.swim/tot,bike:share.bike/tot,run:share.run/tot}, h14:tot, intensos,
+    ultLongaoBike: longaoBike.length?Math.min(...longaoBike):99, ultLongaoRun: longaoRun.length?Math.min(...longaoRun):99,
+    ultBrick: bricks.length?Math.min(...bricks):99, ritmoLeve, nLeves:corridasLeves.length, semanas4, habitual};
+}
+function faseIronman(hoje){
+  const sem=Math.round((Date.parse(IRONMAN_DATA)-Date.parse(hoje))/864e5/7);
+  if(sem>24) return {sem, nome:"Base", alvo:[8,11], foco:"volume aeróbico (Z2), técnica de natação e força"};
+  if(sem>12) return {sem, nome:"Construção", alvo:[11,14], foco:"longões progressivos, sweet spot no pedal e bricks"};
+  if(sem>3)  return {sem, nome:"Específico/Pico", alvo:[13,17], foco:"ritmo de prova, longões de 5–6h e simulados"};
+  return {sem, nome:"Polimento", alvo:[6,9], foco:"reduzir volume mantendo intensidade curta"};
+}
+function gerarSugestoes(S, hoje){
+  const A=alvosAtleta(S), E=analisarHistorico(S,hoje), F=faseIronman(hoje); const sug=[]; const dicas=[];
+  const c=S.carga&&S.carga[0]; const r=c?c.razao:1;
+  if(r>1.3){
+    sug.push({sp:"swim",titulo:"Recuperação ativa na água",dur:35,it:"leve",prio:1,
+      desc:`1.200–1.500 m soltos: 300 aquec. + 6×100 educativos + 400 contínuo a ${faixaN(A.nado.z2)} + 200 solto.`,
+      porque:`Sua carga dos últimos 7 dias está ${String(r).replace(".",",")}× a média do mês (acima de 1,3 aumenta o risco de lesão). Dê ao corpo um estímulo leve.`});
+  } else if(r<0.8){
+    dicas.push(`📉 Carga baixa (${String(r).replace(".",",")}): bom momento para voltar a subir o volume, até ~10% por semana.`);
+  }
+  if(E.dias("swim")>=4 && r<=1.3) sug.push({sp:"swim",titulo:"Natação aeróbica + ritmo",dur:50,it:"mod",prio:2,
+    desc:`2.200 m: 400 aquec. · 8×50 educativos · 6×200 a ${faixaN(A.nado.css)} (desc. 20 s) · 200 solto.`,
+    porque:`Faz ${E.dias("swim")} dias sem nadar. A natação perde técnica rápido: tente nadar 3× por semana.`});
+  if(E.dias("run")>=3 && r<=1.3) sug.push({sp:"run",titulo:"Rodagem Z2",dur:50,it:"leve",prio:2,
+    desc:`50 min a ${faixaP(A.corrida.z2)}, cadência ~170–180 ppm, últimos 5 min soltos.`,
+    porque:`Faz ${E.dias("run")} dias sem correr.`});
+  if(E.dias("bike")>=4 && r<=1.3) sug.push({sp:"bike",titulo:"Pedal base Z2",dur:105,it:"leve",prio:2,
+    desc:`1h45 a ${faixaW(A.bike.z2)}, cadência 85–95 rpm. No rolo, o mesmo alvo de potência.`,
+    porque:`Faz ${E.dias("bike")} dias sem pedalar.`});
+  if(E.ultLongaoBike>10 && r<=1.25) sug.push({sp:"bike",titulo:F.nome==="Base"?"Longão de pedal 3h":"Longão de pedal 4h",dur:F.nome==="Base"?180:240,it:"leve",prio:3,
+    desc:`Z2 contínuo a ${faixaW(A.bike.z2)}. Treine a nutrição de prova: 60–80 g de carboidrato por hora.`,
+    porque:`Seu último pedal com mais de 2h30 foi ${E.ultLongaoBike>=42?"há mais de 6 semanas":"há "+E.ultLongaoBike+" dias"}. Para o Ironman, o longão semanal é a base.`});
+  if(E.ultLongaoRun>10 && r<=1.25) sug.push({sp:"run",titulo:"Longão de corrida",dur:90,it:"leve",prio:3,
+    desc:`1h30 a ${faixaP(A.corrida.z2)}. Plano: hidratar a cada 20 min, gel aos 45 min.`,
+    porque:`Sua última corrida com mais de 75 min foi ${E.ultLongaoRun>=42?"há mais de 6 semanas":"há "+E.ultLongaoRun+" dias"}.`});
+  if(E.intensos===0 && r<=1.2) sug.push({sp:"bike",titulo:"Sweet spot no pedal",dur:75,it:"forte",prio:4,
+    desc:`15 min aquec. · 3×12 min a ${faixaW(A.bike.sweet)} (rec. 4 min leve) · 10 min solto. Ótimo no rolo.`,
+    porque:"Nenhum treino intenso nos últimos 7 dias. Um estímulo de qualidade por semana mantém o limiar subindo."});
+  else if(E.intensos>=3) dicas.push(`🔥 ${E.intensos} treinos intensos nos últimos 7 dias: segure os próximos em Z1–Z2.`);
+  if(E.ultBrick>14 && r<=1.25 && F.nome!=="Polimento") sug.push({sp:"brick",titulo:"Brick (transição)",dur:90,it:"mod",prio:4,
+    desc:`60 min de pedal a ${faixaW(A.bike.z2)} + troca rápida + 20–25 min de corrida a ${faixaP(A.corrida.prova)} (ritmo de prova).`,
+    porque:`Sem treino de transição há ${E.ultBrick>=42?"mais de 6 semanas":E.ultBrick+" dias"}. Correr com as pernas cansadas do pedal se treina.`});
+  // dicas
+  if(E.ritmoLeve && E.nLeves>=2 && E.ritmoLeve < A.corrida.z2[0]-10)
+    dicas.push(`🏃 Suas corridas recentes saíram em média a <b>${mmssS(E.ritmoLeve)}/km</b>, mais rápido que a sua Z2 estimada (${faixaP(A.corrida.z2)}). Para o Ironman, a maior parte das corridas deve ser fácil: segure o ritmo nas rodagens.`);
+  if(A.ftp > A.ftpStrava*1.1) dicas.push(`⚡ O FTP do seu Strava (${A.ftpStrava} W) parece desatualizado: seus esforços recentes indicam <b>~${A.ftp} W</b>. As metas aqui usam ${A.ftp} W. Atualize no Strava ou faça um teste de FTP.`);
+  const sh=E.share; dicas.push(`⚖️ Últimas 2 semanas: natação ${Math.round(sh.swim*100)}% · pedal ${Math.round(sh.bike*100)}% · corrida ${Math.round(sh.run*100)}% do tempo. Referência para Ironman: ~20% · 50% · 30%.`);
+  sug.sort((a,b)=>a.prio-b.prio);
+  return {sug:sug.slice(0,4), dicas, A, E, F};
+}
+function renderSugestoes(){
+  const box=$("#tabSug"); const S=STRAVA; if(!S||!S.historico){ box.innerHTML=`<div class="card muted">Sem histórico do Strava para gerar sugestões.</div>`; return; }
+  const hoje = data ? data.daily.time[0] : new Date(Date.now()-3*3600e3).toISOString().slice(0,10);
+  const G=gerarSugestoes(S,hoje), F=G.F, E=G.E;
+  const tpDias=new Set(TP_TREINOS.map(t=>t.dia));
+  let html=`<section class="card"><h2>Fase de preparação <span>Ironman 10/06/2027</span></h2>
+    <div class="grid3"><div class="stat"><div class="v">${F.sem}</div><div class="l">semanas</div></div><div class="stat"><div class="v" style="font-size:15px">${F.nome}</div><div class="l">fase</div></div><div class="stat"><div class="v">${String(Math.round(E.semanas4*10)/10).replace(".",",")}h</div><div class="l">média/sem (4 sem)</div></div></div>
+    <p class="muted" style="margin-top:8px">Foco da fase: ${F.foco}. Volume típico para amador nesta fase: ${F.alvo[0]}–${F.alvo[1]} h/semana.</p></section>`;
+  html+=`<section class="card"><h2>Leitura dos seus treinos</h2><ul class="tips">${G.dicas.map(d=>`<li>${d}</li>`).join("")}</ul></section>`;
+  html+=`<section class="card"><p class="muted">Sugestões para complementar o plano do seu treinador. Nos dias com treino do TrainingPeaks, ele tem prioridade. Toque em <b>Adicionar</b> para levar a sugestão para a aba Treinos.</p></section>`;
+  if(!G.sug.length) html+=`<section class="card"><p>✅ Seus treinos estão equilibrados. Siga o plano do TrainingPeaks.</p></section>`;
+  G.sug.forEach((sg,i)=>{
+    // melhor dia/horário entre hoje e os próximos 2 dias livres de TP
+    let melhor=null;
+    if(data){ for(const d of data.daily.time.slice(0,3)){ if((tpDias.has(d)&&d!==hoje)||TP_DESCANSO.includes(d)) continue; const b=bestSlot(d,sg.sp,sg.dur); if(b&&(!melhor||b.sc>melhor.sc)) melhor={...b,dia:d}; } }
+    const dt=melhor?new Date(melhor.dia+"T12:00:00"):null;
+    const quando = !data ? "" : !melhor ? `<div class="alert y"><span>🏠</span><span>Sem janela com luz do dia: faça ${sg.sp==="bike"?"no rolo":sg.sp==="run"?"na esteira":sg.sp==="brick"?"rolo + esteira":"na piscina"}.</span></div>`
+      : melhor.sc<50 ? `<div class="alert r"><span>🏠</span><span>Tempo ruim nos próximos dias (melhor nota ${melhor.sc}): faça ${sg.sp==="bike"?"no <b>rolo</b>":sg.sp==="run"?"na <b>esteira</b>":sg.sp==="brick"?"<b>rolo + esteira</b>":"na <b>piscina</b>"}.</span></div>`
+      : `<div class="alert g"><span>⏰</span><span>Melhor momento: <b>${melhor.dia===hoje?"hoje":WD[dt.getDay()]+" "+dt.getDate()+"/"+(dt.getMonth()+1)} ${String(melhor.h).padStart(2,"0")}:00</b> · nota ${melhor.sc} em ${esc(curLoc.n)}</span></div>`;
+    const hab = E.habitual(sg.sp==="brick"?"bike":sg.sp);
+    let quandoFinal = quando, addDia = melhor?melhor.dia:hoje;
+    if(sg.sp==="swim"){
+      const diaLivre = data ? data.daily.time.slice(0,3).find(d=>!(tpDias.has(d)&&d!==hoje)&&!TP_DESCANSO.includes(d)) : hoje;
+      const dl = diaLivre? new Date(diaLivre+"T12:00:00"):null; if(diaLivre) addDia=diaLivre;
+      quandoFinal = `<div class="alert g"><span>🏊</span><span>Na piscina, no seu horário habitual${hab!=null?` (<b>${String(hab).padStart(2,"0")}h</b>)`:""}${dl?`, ${diaLivre===hoje?"hoje":WD[dl.getDay()]+" "+dl.getDate()+"/"+(dl.getMonth()+1)}`:""}.${curLoc.type!=="interior"&&melhor&&melhor.sc>=60?` Se quiser mar aberto em ${esc(curLoc.n)}: ${melhor.dia===hoje?"hoje":WD[dt.getDay()]+" "+dt.getDate()+"/"+(dt.getMonth()+1)} às ${String(melhor.h).padStart(2,"0")}h (nota ${melhor.sc}).`:""}</span></div>`;
+    }
+    const w = melhor ? windowWeather(melhor.dia,melhor.h,sg.dur) : {at:22,hum:70};
+    html+=`<section class="card"><h2>${SP_NOME[sg.sp]} <span>${Math.floor(sg.dur/60)}h${String(sg.dur%60).padStart(2,"0")} · ${IT_NOME[sg.it]}</span></h2>
+      <div style="font-weight:700;font-size:17px">${sg.titulo}</div>
+      <div style="margin:6px 0">${sg.desc}</div>
+      <div class="muted" style="margin-bottom:8px">💬 ${sg.porque}</div>
+      ${quandoFinal}
+      <details style="margin-top:8px"><summary class="muted">Hidratação e alimentação</summary><div style="margin-top:8px">${nutriPlan(sg.sp,sg.dur,sg.it,w.at,w.hum)}</div></details>
+      <button class="btn" style="margin-top:10px" data-addsug="${i}" data-dia="${addDia}">Adicionar aos meus treinos</button></section>`;
+  });
+  html+=`<section class="card"><h2>Suas metas de intensidade</h2><table>
+    <tr><td>🚴 FTP estimado</td><td>${G.A.ftp} W</td></tr>
+    <tr><td>🚴 Z2 / sweet spot</td><td>${faixaW(G.A.bike.z2)} · ${faixaW(G.A.bike.sweet)}</td></tr>
+    <tr><td>🏃 Z2 (fácil)</td><td>${faixaP(G.A.corrida.z2)}</td></tr>
+    <tr><td>🏃 Limiar / tiros</td><td>${faixaP(G.A.corrida.limiar)} · ${faixaP(G.A.corrida.vo2)}</td></tr>
+    <tr><td>🏊 CSS aprox. / Z2</td><td>${mmssS(G.A.css)}/100 m · ${faixaN(G.A.nado.z2)}</td></tr></table>
+    <p class="muted" style="margin-top:6px">Calculadas dos seus recordes no Strava (10 km, potência 20 min/1 h) e dos nados recentes. Se o seu treinador passar outras zonas, use as dele.</p></section>`;
+  box.innerHTML=html;
+  box.querySelectorAll("[data-addsug]").forEach(bt=>bt.onclick=()=>{
+    const sg=G.sug[+bt.dataset.addsug];
+    meusTreinos.push({id:"s"+Date.now(), dia:bt.dataset.dia, titulo:sg.titulo, sp:sg.sp, dur:sg.dur, it:sg.it, desc:sg.desc.replace(/<[^>]+>/g,""), fonte:"sugestão"});
+    store.set("treinos",meusTreinos); bt.textContent="✓ Adicionado na aba Treinos"; bt.disabled=true; if(data) renderTreinos();
+  });
 }
 
 /* ===================== PERFORMANCE (Strava) ===================== */
@@ -889,7 +1037,7 @@ $("#q").oninput=e=>{
         if(!custom.some(c=>c.lat===loc.lat&&c.lon===loc.lon)){ custom.unshift(loc); custom=custom.slice(0,8); store.set("custom",custom); }
         curLoc=loc; store.set("loc",curLoc); $("#sheet").classList.remove("open"); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
 (()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
-renderPerf(); renderTreinos();
+renderPerf(); renderTreinos(); renderSugestoes();
 fillSelect(); load();
 if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
       };
@@ -906,7 +1054,7 @@ $("#btnGeo").onclick=()=>{
     curLoc={g:"GPS", n:"Minha localização", lat:+lat.toFixed(4), lon:+lon.toFixed(4), type: bd<0.01?best.type:(best.type==="mar"&&bd<0.04?"mar":"interior")};
     store.set("loc",curLoc); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
 (()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
-renderPerf(); renderTreinos();
+renderPerf(); renderTreinos(); renderSugestoes();
 fillSelect(); load();
   }, err=>{ $("#upd").textContent="Não foi possível obter a localização ("+err.message+")."; }, {timeout:10000});
 };
@@ -914,7 +1062,7 @@ window.addEventListener("resize",()=>{ if(data) renderDay(); });
 
 $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
 (()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
-renderPerf(); renderTreinos();
+renderPerf(); renderTreinos(); renderSugestoes();
 fillSelect(); load();
 </script>
 </body>

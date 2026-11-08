@@ -143,12 +143,19 @@ const strava = { geradoEm: new Date(Date.now() - 3 * 3600e3).toISOString().slice
 for (const id of ['periodo', 'semanas', 'carga', 'ritmos', 'corridas_clima', 'efeito_calor', 'prova', 'recentes']) {
   const c = C[id]; D[id] = c.fn(...c.inputs.map((i) => D[i])); strava[id] = D[id];
 }
+// histórico compacto dos últimos 42 dias (para as sugestões de treino)
+{
+  const ref = at.reduce((m, r) => (r.dia > m ? r.dia : m), '');
+  const lim = new Date(Date.parse(ref + 'T00:00:00Z') - 42 * 864e5).toISOString().slice(0, 10);
+  strava.historico = at.filter((r) => r.dia >= lim).sort((a, b) => (a.inicio < b.inicio ? -1 : 1))
+    .map((r) => [r.dia, r.tipo, Math.round((r.tempo_mov_s || 0) / 60), r.tipo === 'Swim' ? Math.round(r.natacao_m || 0) : Math.round((r.distancia_km || 0) * 10) / 10, r.esforco ?? null, r.tipo === 'Swim' ? (r.ritmo_s_100m ? Math.round(r.ritmo_s_100m) : null) : (r.ritmo_s_km ? Math.round(r.ritmo_s_km) : null), +String(r.inicio).slice(11, 13)]);
+}
 strava.corridas_clima = strava.corridas_clima.map((r) => [r.temp_c, r.ritmo_s_km, r.dia]);
 const rec = window.triParse(rd('recordes.json'));
 strava.recordes = (rec.efforts || []).filter((e) => e.unit === 'seconds' || e.unit === 'watts')
   .map((e) => [e.best_effort_type, e.value, e.unit === 'seconds' ? 's' : 'W', e.date]);
 const z = window.triParse(rd('zonas.json'));
-strava.zonas = { ftp: z.ftp, fc: (z.heart_rate_zones || []).map((h) => [h.min, h.max ?? null]) };
+strava.zonas = { ftp: z.ftp, fc: (z.heart_rate_zones || []).map((h) => [h.min, h.max ?? null]), corrida_ms: (z.run_zones || []).map((h) => [h.min ?? null, h.max ?? null]) };
 const tp = rd('treinos.json');
 const data = { geradoEm: strava.geradoEm, tpAtualizado: tp.tpAtualizado, tpTreinos: tp.tpTreinos || [], tpDescanso: tp.tpDescanso || [], strava };
 fs.writeFileSync(new URL('../data.js', import.meta.url), '// Gerado automaticamente. Não edite à mão.\nwindow.TRI_DATA = ' + JSON.stringify(data, null, 1) + ';\n');
