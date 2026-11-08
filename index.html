@@ -1038,7 +1038,7 @@ $("#q").oninput=e=>{
         curLoc=loc; store.set("loc",curLoc); $("#sheet").classList.remove("open"); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
 renderPerf(); renderTreinos(); renderSugestoes();
 fillSelect(); load();
-if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(r=>r.update()).catch(()=>{}); }
       };
     }catch(err){ $("#results").innerHTML=`<p class="err">Erro na busca.</p>`; }
   },350);
