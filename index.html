@@ -117,9 +117,9 @@ footer a{color:var(--mut)}
   <div class="upd" id="upd">—</div>
 </header>
 
-<nav class="tabs" id="tabs"><button data-t="tabTreino" class="on">🏁 Treinos</button><button data-t="tabSug">💡 Sugestões</button><button data-t="app">☁️ Tempo</button><button data-t="tabPerf">📈 Perf.</button></nav>
-<main id="tabTreino" class="tab"></main>
-<main id="app" class="tab" hidden>
+<nav class="tabs" id="tabs"><button data-t="app" class="on">☁️ Tempo</button><button data-t="tabTreino">🏁 Treinos</button><button data-t="tabSug">💡 Sugestões</button><button data-t="tabPerf">📈 Perf.</button></nav>
+<main id="tabTreino" class="tab" hidden></main>
+<main id="app" class="tab">
   <div class="loading">Carregando previsão…</div>
 </main>
 <main id="tabSug" class="tab" hidden></main>
@@ -1035,8 +1035,7 @@ $("#q").oninput=e=>{
         const coast = x.longitude > -48.95 || (x.latitude < -28.3 && x.longitude > -49.8 && x.longitude > -49.0 - (-(x.latitude)-28.3)*0.6);
         const loc={g:"Meus locais", n:x.name, lat:+x.latitude.toFixed(4), lon:+x.longitude.toFixed(4), type: coast?"mar":"interior"};
         if(!custom.some(c=>c.lat===loc.lat&&c.lon===loc.lon)){ custom.unshift(loc); custom=custom.slice(0,8); store.set("custom",custom); }
-        curLoc=loc; store.set("loc",curLoc); $("#sheet").classList.remove("open"); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
-(()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
+        curLoc=loc; store.set("loc",curLoc); $("#sheet").classList.remove("open"); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
 renderPerf(); renderTreinos(); renderSugestoes();
 fillSelect(); load();
 if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
@@ -1052,16 +1051,14 @@ $("#btnGeo").onclick=()=>{
     // escolhe o preset mais próximo para herdar o tipo (mar/lagoa/interior)
     let best=PRESETS[0], bd=1e9; PRESETS.forEach(x=>{const d=(x.lat-lat)**2+(x.lon-lon)**2; if(d<bd){bd=d;best=x;}});
     curLoc={g:"GPS", n:"Minha localização", lat:+lat.toFixed(4), lon:+lon.toFixed(4), type: bd<0.01?best.type:(best.type==="mar"&&bd<0.04?"mar":"interior")};
-    store.set("loc",curLoc); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
-(()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
+    store.set("loc",curLoc); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
 renderPerf(); renderTreinos(); renderSugestoes();
 fillSelect(); load();
   }, err=>{ $("#upd").textContent="Não foi possível obter a localização ("+err.message+")."; }, {timeout:10000});
 };
 window.addEventListener("resize",()=>{ if(data) renderDay(); });
 
-$("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
-(()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
+$("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
 renderPerf(); renderTreinos(); renderSugestoes();
 fillSelect(); load();
 </script>
