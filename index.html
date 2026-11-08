@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<meta name="mobile-web-app-capable" content="yes">
+<title>TriClima SC</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{
+  --bg:#0b1220;--card:#121b2e;--card2:#18233b;--line:#24314f;--tx:#e8eefc;--mut:#8d9bbd;
+  --ok:#22c55e;--mid:#eab308;--bad:#f97316;--nope:#ef4444;--blue:#38bdf8;--org:#fb923c;--acc:#60a5fa;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,Roboto,sans-serif;padding-bottom:40px}
+header{position:sticky;top:0;z-index:5;background:rgba(11,18,32,.95);backdrop-filter:blur(8px);padding:12px 14px 10px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand h1{font-size:18px;letter-spacing:.3px}
+.brand h1 span{color:var(--acc)}
+.iconbtn{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:7px 10px;font-size:14px}
+.locrow{display:flex;gap:8px;margin-top:10px}
+select,input{background:var(--card2);border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:9px 10px;font-size:15px;width:100%}
+.upd{font-size:12px;color:var(--mut);margin-top:6px}
+main{padding:12px;display:flex;flex-direction:column;gap:12px;max-width:640px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--mut);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.now{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+.big{font-size:52px;font-weight:700;line-height:1}
+.big small{font-size:22px;color:var(--mut)}
+.nowinfo{font-size:14px;color:var(--mut)}
+.nowinfo b{color:var(--tx)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stat{background:var(--card2);border-radius:12px;padding:9px;text-align:center}
+.stat .v{font-size:18px;font-weight:700}
+.stat .l{font-size:11px;color:var(--mut)}
+.alert{border-radius:12px;padding:10px 12px;font-size:14px;display:flex;gap:8px;align-items:flex-start}
+.alert.r{background:#3b1219;border:1px solid #7f1d1d}
+.alert.y{background:#3a2e0b;border:1px solid #854d0e}
+.alert.g{background:#0f2e1c;border:1px solid #166534}
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sc{background:var(--card2);border-radius:14px;padding:10px 6px;text-align:center}
+.ring{width:72px;height:72px;margin:0 auto 4px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .n{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+.sc .t{font-weight:600}
+.sc .q{font-size:12px}
+.indoor{margin-top:6px;font-size:12px;font-weight:700;color:#fde68a;background:#3a2e0b;border-radius:8px;padding:4px}
+.sc ul{list-style:none;font-size:11px;color:var(--mut);margin-top:4px;min-height:14px}
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:0 0 auto;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:8px 10px;text-align:center;min-width:70px;color:var(--tx)}
+.day.on{border-color:var(--acc);background:#1d3157}
+.day .d{font-size:12px;color:var(--mut)}
+.day .e{font-size:20px}
+.day .tt{font-size:13px}
+.day .rr{font-size:11px;color:var(--blue)}
+canvas{width:100%;height:170px;display:block}
+.legend{display:flex;gap:12px;font-size:11px;color:var(--mut);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:3px;margin-right:4px;vertical-align:middle}
+.hours{max-height:420px;overflow-y:auto}
+.hr{display:grid;grid-template-columns:42px 28px 44px 1fr 1fr 54px;gap:4px;align-items:center;padding:7px 2px;border-bottom:1px solid var(--line);font-size:13px}
+.hr.night{opacity:.55}
+.hr.cur{background:#1d3157;border-radius:8px}
+.hr .h{color:var(--mut)}
+.hr .rain{color:var(--blue)}
+.arrow{display:inline-block;transition:transform .2s}
+.dots{display:flex;gap:3px;justify-content:flex-end}
+.dot{width:14px;height:14px;border-radius:4px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#000;font-weight:700}
+.hhead{font-size:11px;color:var(--mut);border-bottom:1px solid var(--line)}
+.seg{display:flex;background:var(--card2);border-radius:10px;padding:3px;gap:3px;margin-bottom:10px}
+.seg button{flex:1;background:none;border:0;color:var(--mut);padding:8px 4px;border-radius:8px;font-size:13px}
+.seg button.on{background:#1d3157;color:var(--tx);font-weight:600}
+.win{display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:12px;padding:10px 12px;margin-bottom:6px}
+.win .w1{font-weight:600}
+.win .w2{font-size:12px;color:var(--mut)}
+.badge{border-radius:8px;padding:3px 8px;font-weight:700;color:#000;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:6px 4px;text-align:center;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-weight:500;font-size:11px}
+td:first-child,th:first-child{text-align:left}
+.muted{color:var(--mut);font-size:12px}
+.tips{list-style:none;display:flex;flex-direction:column;gap:6px}
+.tips li{background:var(--card2);border-radius:10px;padding:8px 10px;font-size:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.btn{background:var(--acc);color:#04112a;border:0;border-radius:10px;padding:10px;font-weight:700;width:100%;font-size:14px}
+.tabs{position:sticky;top:0;z-index:4;display:flex;gap:4px;max-width:640px;margin:8px auto 0;padding:0 12px}
+.tabs button{flex:1;background:var(--card2);border:1px solid var(--line);color:var(--mut);border-radius:12px;padding:10px 4px;font-size:14px}
+.tabs button.on{background:#1d3157;color:var(--tx);border-color:var(--acc);font-weight:700}
+main.tab[hidden]{display:none}
+main.tab{padding:12px;display:flex;flex-direction:column;gap:12px;max-width:640px;margin:0 auto}
+.err{color:#fca5a5;font-size:14px}
+.loading{text-align:center;color:var(--mut);padding:30px}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10;display:none;align-items:flex-end}
+.sheet.open{display:flex}
+.sheet .in{background:var(--card);width:100%;border-radius:18px 18px 0 0;padding:16px;max-height:80vh;overflow:auto}
+.res{padding:10px;border-bottom:1px solid var(--line)}
+.compass{width:110px;height:110px}
+.windbox{display:flex;gap:14px;align-items:center}
+footer{text-align:center;color:var(--mut);font-size:11px;padding:16px}
+footer a{color:var(--mut)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1>🏊🚴🏃 Tri<span>Clima</span> SC</h1>
+    <div style="display:flex;gap:6px">
+      <button class="iconbtn" id="btnGeo" title="Minha localização">📍</button>
+      <button class="iconbtn" id="btnSearch" title="Buscar cidade">🔎</button>
+      <button class="iconbtn" id="btnRefresh" title="Atualizar">⟳</button>
+    </div>
+  </div>
+  <div class="locrow"><select id="loc"></select></div>
+  <div class="upd" id="upd">—</div>
+</header>
+
+<nav class="tabs" id="tabs"><button data-t="tabTreino" class="on">🏁 Treinos</button><button data-t="app">☁️ Tempo</button><button data-t="tabPerf">📈 Performance</button></nav>
+<main id="tabTreino" class="tab"></main>
+<main id="app" class="tab" hidden>
+  <div class="loading">Carregando previsão…</div>
+</main>
+<main id="tabPerf" class="tab" hidden></main>
+
+<div class="sheet" id="sheet"><div class="in">
+  <h2 style="margin-bottom:10px">Buscar local em SC</h2>
+  <input id="q" placeholder="Ex.: Bombinhas, Penha, Rio do Sul…" autocomplete="off">
+  <div id="results" style="margin-top:8px"></div>
+  <button class="iconbtn" style="margin-top:12px;width:100%" id="closeSheet">Fechar</button>
+</div></div>
+
+<footer>Dados: <a href="https://open-meteo.com/">Open-Meteo</a> (ECMWF, GFS, ICON e modelo marinho). Notas por modalidade são estimativas para treino — confira sempre as condições no local.</footer>
+
+<script>
+"use strict";
+/* ===================== LOCAIS ===================== */
+// type: mar = praia oceânica | lagoa = água abrigada | interior
+const PRESETS = [
+  {g:"Locais", n:"Jurerê Internacional", lat:-27.4390, lon:-48.4990, type:"mar"},
+  {g:"Locais", n:"Beira-Mar Norte", lat:-27.5850, lon:-48.5480, type:"lagoa"},
+  {g:"Locais", n:"Barreiros", lat:-27.5730, lon:-48.6190, type:"lagoa"},
+  {g:"Locais", n:"Biguaçu", lat:-27.4940, lon:-48.6560, type:"lagoa"},
+  {g:"Locais", n:"Balneário São Miguel (Biguaçu)", lat:-27.4230, lon:-48.6200, type:"lagoa"},
+  {g:"Locais", n:"Governador Celso Ramos", lat:-27.3150, lon:-48.5590, type:"mar"},
+  {g:"Locais", n:"Palhoça", lat:-27.6450, lon:-48.6700, type:"interior"},
+  {g:"Locais", n:"Praia da Pinheira", lat:-27.8660, lon:-48.5880, type:"mar"},
+  {g:"Locais", n:"Lages", lat:-27.8160, lon:-50.3260, type:"interior"},
+];
+
+/* ===================== ESTADO ===================== */
+const store = {
+  get(k,d){try{const v=localStorage.getItem("tcsc_"+k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem("tcsc_"+k,JSON.stringify(v))}catch(e){}}
+};
+let custom = store.get("custom", []);
+let curLoc = store.get("loc", PRESETS[0]);
+if(curLoc.g!=="GPS" && curLoc.g!=="Meus locais" && !PRESETS.some(p=>p.lat===curLoc.lat&&p.lon===curLoc.lon)) curLoc = PRESETS[0];
+let race = store.get("race", {name:"Ironman Florianópolis", date:"2027-06-10", loc:0, start:6});
+if(race.loc >= PRESETS.length + custom.length) race.loc = 0;
+let data = null, marine = null, models = null;
+let selDay = 0, winSport = "bike", winDur = 2;
+
+const $ = s => document.querySelector(s);
+const app = $("#app");
+
+/* ===================== API ===================== */
+const H = "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,wind_speed_10m,wind_gusts_10m,wind_direction_10m,uv_index,is_day,cape";
+const D = "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,uv_index_max,sunrise,sunset";
+const C = "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m,is_day";
+const MODELS = ["ecmwf_ifs025","gfs_seamless","icon_seamless"];
+const MODEL_NAMES = {ecmwf_ifs025:"ECMWF",gfs_seamless:"GFS",icon_seamless:"ICON"};
+
+async function getJSON(url){
+  const ctl = new AbortController(); const tm = setTimeout(()=>ctl.abort(), 15000);
+  let r;
+  try{ r = await fetch(url,{signal:ctl.signal}); }
+  catch(e){ throw new Error(e.name==="AbortError" ? "tempo esgotado" : "sem acesso à internet neste visualizador"); }
+  finally{ clearTimeout(tm); }
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  return r.json();
+}
+function fcUrl(l, days=7){
+  return `https://api.open-meteo.com/v1/forecast?latitude=${l.lat}&longitude=${l.lon}&hourly=${H}&daily=${D}&current=${C}&timezone=America%2FSao_Paulo&forecast_days=${days}&wind_speed_unit=kmh`;
+}
+function marUrl(l, days=7){
+  return `https://marine-api.open-meteo.com/v1/marine?latitude=${l.lat}&longitude=${l.lon}&hourly=wave_height,wave_period,wave_direction,sea_surface_temperature&timezone=America%2FSao_Paulo&forecast_days=${days}`;
+}
+function modUrl(l){
+  return `https://api.open-meteo.com/v1/forecast?latitude=${l.lat}&longitude=${l.lon}&daily=precipitation_sum,temperature_2m_max,wind_speed_10m_max&models=${MODELS.join(",")}&timezone=America%2FSao_Paulo&forecast_days=7`;
+}
+
+async function load(){
+  app.innerHTML = `<div class="loading">Carregando previsão de ${esc(curLoc.n)}…</div>`;
+  $("#upd").textContent = "Atualizando…";
+  try{
+    const wantMar = curLoc.type !== "interior";
+    const [f, m, md] = await Promise.all([
+      getJSON(fcUrl(curLoc)),
+      wantMar ? getJSON(marUrl(curLoc)).catch(()=>null) : Promise.resolve(null),
+      getJSON(modUrl(curLoc)).catch(()=>null)
+    ]);
+    data = f; marine = m; models = md;
+    selDay = 0;
+    store.set("cache_"+curLoc.lat+"_"+curLoc.lon, {f,m,md,t:Date.now()});
+    render();
+    $("#upd").textContent = "Atualizado às " + new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}) + " · " + curLoc.n;
+  }catch(e){
+    const c = store.get("cache_"+curLoc.lat+"_"+curLoc.lon, null);
+    if(c){
+      data=c.f; marine=c.m; models=c.md; render();
+      $("#upd").textContent = "Sem conexão — mostrando dados de " + new Date(c.t).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+    }else{
+      app.innerHTML = `<div class="card"><p class="err" style="margin-bottom:10px">Não consegui buscar a previsão (${esc(e.message)}).</p>
+        <p style="margin-bottom:6px">Se você abriu o arquivo dentro de outro app (Claude, WhatsApp, visualizador de arquivos), ele bloqueia a internet. Abra pelo <b>Chrome</b>:</p>
+        <ol style="padding-left:18px;color:var(--mut);font-size:14px"><li>Baixe o arquivo</li><li>Abra o app <b>Arquivos</b> → Downloads</li><li>Toque e segure em <b>triclima-sc.html</b> → Abrir com → <b>Chrome</b></li></ol>
+        <button class="btn" style="margin-top:12px" onclick="load()">Tentar de novo</button></div>`;
+      $("#upd").textContent = "Erro";
+      $("#tabTreino").innerHTML = app.innerHTML;
+    }
+  }
+}
+
+/* ===================== UTIL ===================== */
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const DIRS = ["N","NE","L","SE","S","SO","O","NO"];
+const DIRN = {N:"Norte",NE:"Nordeste",L:"Leste",SE:"Sudeste",S:"Sul",SO:"Sudoeste",O:"Oeste",NO:"Noroeste"};
+const card = d => DIRS[Math.round(((d%360)+360)%360/45)%8];
+const r0 = v => v==null||isNaN(v) ? "–" : Math.round(v);
+const r1 = v => v==null||isNaN(v) ? "–" : (Math.round(v*10)/10).toString().replace(".",",");
+const WD = ["dom","seg","ter","qua","qui","sex","sáb"];
+function wIcon(code, day=1){
+  if(code==null) return "·";
+  if(code===0) return day?"☀️":"🌙";
+  if(code<=2) return day?"🌤️":"☁️";
+  if(code===3) return "☁️";
+  if(code===45||code===48) return "🌫️";
+  if(code>=51&&code<=57) return "🌦️";
+  if((code>=61&&code<=67)||(code>=80&&code<=82)) return "🌧️";
+  if(code>=71&&code<=77) return "🌨️";
+  if(code>=95) return "⛈️";
+  return "☁️";
+}
+function wText(code){
+  if(code===0) return "Céu limpo"; if(code<=2) return "Poucas nuvens"; if(code===3) return "Nublado";
+  if(code===45||code===48) return "Neblina"; if(code>=51&&code<=57) return "Garoa";
+  if(code>=61&&code<=65) return "Chuva"; if(code>=66&&code<=67) return "Chuva congelante";
+  if(code>=80&&code<=82) return "Pancadas de chuva"; if(code>=95) return "Trovoadas"; return "—";
+}
+function nowIdx(){
+  const off = data.utc_offset_seconds*1000;
+  const key = new Date(Date.now()+off).toISOString().slice(0,13);
+  const i = data.hourly.time.findIndex(t=>t.slice(0,13)===key);
+  return i<0?0:i;
+}
+function hourObj(i){
+  const h = data.hourly;
+  const o = {i, time:h.time[i]};
+  for(const k of Object.keys(h)) if(k!=="time") o[k]=h[k][i];
+  if(marine && marine.hourly){
+    const mi = marine.hourly.time.indexOf(h.time[i]);
+    if(mi>=0){ o.wave = marine.hourly.wave_height[mi]; o.wper = marine.hourly.wave_period[mi]; o.sst = marine.hourly.sea_surface_temperature[mi]; }
+  }
+  return o;
+}
+function colorFor(s){return s>=75?"var(--ok)":s>=50?"var(--mid)":s>=25?"var(--bad)":"var(--nope)"}
+function labelFor(s){return s>=75?"Ótimo":s>=50?"Ok":s>=25?"Ruim":"Evite"}
+
+/* ===================== NOTAS POR MODALIDADE ===================== */
+function thunder(o){ return o.weather_code>=95 || (o.cape>1200 && o.precipitation_probability>=50); }
+function clamp(s){return Math.max(0,Math.min(100,Math.round(s)))}
+
+function scoreSwim(o){
+  let s=100, r=[];
+  if(thunder(o)) return {s:5, r:["risco de raio"]};
+  if(curLoc.type==="interior") { r.push("sem dados de água"); }
+  if(o.wave!=null && curLoc.type==="mar"){
+    if(o.wave>0.6){ s-=(o.wave-0.6)*55; r.push(`ondas ${r1(o.wave)} m`); }
+  }
+  const sst = o.sst;
+  if(sst!=null){ if(sst<15){s-=40;r.push(`água ${r0(sst)}°C`)} else if(sst<18){s-=20;r.push(`água fria ${r0(sst)}°C`)} }
+  if(o.wind_speed_10m>20){ s-=(o.wind_speed_10m-20)*1.6; r.push(`vento ${r0(o.wind_speed_10m)}`); }
+  if(o.wind_gusts_10m>35){ s-=(o.wind_gusts_10m-35)*1; }
+  if(o.precipitation>2){ s-=12; r.push("chuva forte"); }
+  if(o.temperature_2m<16){ s-=12; r.push("ar frio"); }
+  if(!o.is_day){ s-=35; r.push("escuro"); }
+  return {s:clamp(s), r};
+}
+function scoreBike(o){
+  let s=100, r=[];
+  if(thunder(o)) return {s:5, r:["risco de raio"]};
+  const w=o.wind_speed_10m, g=o.wind_gusts_10m;
+  if(w>15){ s-=(w-15)*2.2; r.push(`vento ${r0(w)} km/h`); }
+  if(g>32){ s-=(g-32)*1.8; r.push(`rajadas ${r0(g)}`); }
+  if(o.precipitation>=0.3){ s-= o.precipitation>2?45:25; r.push("pista molhada"); }
+  else if(o.precipitation_probability>=60){ s-=10; r.push(`${o.precipitation_probability}% chuva`); }
+  if(o.apparent_temperature>32){ s-=(o.apparent_temperature-32)*4; r.push(`calor ${r0(o.apparent_temperature)}°`); }
+  if(o.temperature_2m<10){ s-=(10-o.temperature_2m)*3; r.push(`frio ${r0(o.temperature_2m)}°`); }
+  if(o.weather_code===45||o.weather_code===48){ s-=20; r.push("neblina"); }
+  if(!o.is_day){ s-=40; r.push("escuro"); }
+  return {s:clamp(s), r};
+}
+function scoreRun(o){
+  let s=100, r=[];
+  if(thunder(o)) return {s:5, r:["risco de raio"]};
+  const at=o.apparent_temperature;
+  if(at>25){ s-=(at-25)*5.5; r.push(`sensação ${r0(at)}°`); }
+  if(o.relative_humidity_2m>80 && o.temperature_2m>23){ s-=10; r.push(`umidade ${r0(o.relative_humidity_2m)}%`); }
+  if(o.is_day && o.uv_index>7){ s-=(o.uv_index-7)*6; r.push(`UV ${r0(o.uv_index)}`); }
+  if(o.precipitation>2){ s-=15; r.push("chuva forte"); }
+  if(o.wind_speed_10m>35){ s-=12; r.push("vento forte"); }
+  if(o.temperature_2m<7){ s-=(7-o.temperature_2m)*3; r.push("frio"); }
+  if(!o.is_day){ s-=12; r.push("escuro"); }
+  return {s:clamp(s), r};
+}
+const SPORTS = {swim:{n:"Natação",e:"🏊",f:scoreSwim}, bike:{n:"Ciclismo",e:"🚴",f:scoreBike}, run:{n:"Corrida",e:"🏃",f:scoreRun}};
+
+function wetsuit(sst){
+  if(sst==null) return null;
+  // Regras IRONMAN p/ amadores (age group): permitido até 24,5°C; 24,6–28,8 opcional sem premiação; acima proibido
+  if(sst<=24.5) return {t:"Neoprene permitido", c:"g"};
+  if(sst<=28.8) return {t:"Neoprene opcional (regra IRONMAN: sem premiação/ranking)", c:"y"};
+  return {t:"Neoprene proibido", c:"r"};
+}
+
+/* ===================== RENDER ===================== */
+function ring(score){
+  const R=30, C=2*Math.PI*R, off=C*(1-score/100);
+  return `<div class="ring"><svg width="72" height="72"><circle cx="36" cy="36" r="${R}" stroke="#24314f" stroke-width="7" fill="none"/>
+  <circle cx="36" cy="36" r="${R}" stroke="${colorFor(score)}" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}"/></svg>
+  <div class="n">${score}</div></div>`;
+}
+
+function render(){
+  const ni = nowIdx();
+  const c = data.current;
+  const o = hourObj(ni);
+  // usar valores "current" quando existirem
+  const cur = Object.assign({}, o, c);
+  const html = [];
+
+  // --- ALERTAS ---
+  const alerts = buildAlerts(ni);
+  if(alerts.length) html.push(alerts.map(a=>`<div class="alert ${a.c}"><span>${a.i}</span><span>${a.t}</span></div>`).join(""));
+
+  // --- AGORA ---
+  const sst = o.sst;
+  html.push(`<section class="card">
+    <h2>Agora <span>${wText(cur.weather_code)}</span></h2>
+    <div class="now">
+      <div class="big">${r0(cur.temperature_2m)}<small>°C</small></div>
+      <div class="nowinfo">
+        <div>Sensação <b>${r0(cur.apparent_temperature)}°</b> · Umidade <b>${r0(cur.relative_humidity_2m)}%</b></div>
+        <div>Hoje: <b>${r0(data.daily.temperature_2m_min[0])}°</b> / <b>${r0(data.daily.temperature_2m_max[0])}°</b> · UV máx <b>${r0(data.daily.uv_index_max[0])}</b></div>
+        <div>☀️ ${data.daily.sunrise[0].slice(11)} · 🌙 ${data.daily.sunset[0].slice(11)}</div>
+      </div>
+    </div>
+    <div class="grid3">
+      <div class="stat"><div class="v"><span class="arrow" style="transform:rotate(${(cur.wind_direction_10m+180)%360}deg)">↑</span> ${r0(cur.wind_speed_10m)}</div><div class="l">vento km/h · ${card(cur.wind_direction_10m)}</div></div>
+      <div class="stat"><div class="v">${r0(cur.wind_gusts_10m)}</div><div class="l">rajadas km/h</div></div>
+      <div class="stat"><div class="v" style="color:var(--blue)">${o.precipitation_probability ?? "–"}%</div><div class="l">chuva · ${r1(o.precipitation)} mm/h</div></div>
+      ${curLoc.type!=="interior" ? `
+      <div class="stat"><div class="v">${sst!=null? r1(sst)+"°":"–"}</div><div class="l">água ${curLoc.type==="lagoa"?"(mar próx.)":""}</div></div>
+      <div class="stat"><div class="v">${curLoc.type==="mar" && o.wave!=null ? r1(o.wave)+" m":"abrigada"}</div><div class="l">ondas${o.wper&&curLoc.type==="mar"?" · "+r0(o.wper)+" s":""}</div></div>` : `
+      <div class="stat"><div class="v">${r0(o.cloud_cover)}%</div><div class="l">nuvens</div></div>
+      <div class="stat"><div class="v">${r0(o.uv_index)}</div><div class="l">índice UV</div></div>`}
+      <div class="stat"><div class="v">${next3hRain(ni)}</div><div class="l">chuva próx. 3h</div></div>
+    </div>
+  </section>`);
+
+  // --- VENTO (bússola) ---
+  const wd = cur.wind_direction_10m, dn = card(wd);
+  html.push(`<section class="card"><h2>Direção do vento</h2>
+    <div class="windbox">
+      <svg class="compass" viewBox="0 0 110 110">
+        <circle cx="55" cy="55" r="50" fill="#18233b" stroke="#24314f" stroke-width="2"/>
+        ${[0,45,90,135,180,225,270,315].map(a=>`<line x1="55" y1="8" x2="55" y2="${a%90?13:16}" stroke="#4b5b80" stroke-width="2" transform="rotate(${a} 55 55)"/>`).join("")}
+        <text x="55" y="27" fill="#e8eefc" font-size="12" font-weight="700" text-anchor="middle">N</text>
+        <text x="88" y="59" fill="#8d9bbd" font-size="11" text-anchor="middle">L</text>
+        <text x="55" y="92" fill="#8d9bbd" font-size="11" text-anchor="middle">S</text>
+        <text x="22" y="59" fill="#8d9bbd" font-size="11" text-anchor="middle">O</text>
+        <g transform="rotate(${(wd+180)%360} 55 55)">
+          <line x1="55" y1="80" x2="55" y2="34" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
+          <polygon points="55,26 47,40 63,40" fill="#60a5fa"/>
+          <circle cx="55" cy="80" r="4" fill="#60a5fa"/>
+        </g>
+      </svg>
+      <div>
+        <div style="font-size:22px;font-weight:700">Vento ${DIRN[dn]} (${dn})</div>
+        <div class="nowinfo">Vem do <b>${DIRN[dn].toLowerCase()}</b> · ${r0(wd)}°</div>
+        <div class="nowinfo"><b>${r0(cur.wind_speed_10m)} km/h</b> · rajadas <b>${r0(cur.wind_gusts_10m)} km/h</b></div>
+        <div class="muted" style="margin-top:4px">A seta aponta para onde o vento sopra.</div>
+      </div>
+    </div>
+    <div class="muted" style="margin-top:10px">Próximas horas: ${[3,6,9,12].map(k=>{const i=ni+k; if(i>=data.hourly.time.length) return ""; return `<b style="color:var(--tx)">${data.hourly.time[i].slice(11,13)}h</b> ${card(data.hourly.wind_direction_10m[i])} ${r0(data.hourly.wind_speed_10m[i])}`}).join(" · ")}</div>
+  </section>`);
+
+  // --- NOTAS AGORA ---
+  html.push(`<section class="card"><h2>Condição para treinar agora</h2><div class="scores">
+    ${Object.entries(SPORTS).map(([k,sp])=>{
+      if(k==="swim" && curLoc.type==="interior") return `<div class="sc">${sp.e}<div class="t">${sp.n}</div><ul><li>local sem mar/lagoa — escolha uma praia</li></ul></div>`;
+      const r=sp.f(cur);
+      const indoor = r.s<50 ? (k==="bike"?"➡️ Faça no rolo":k==="run"?"➡️ Faça na esteira":"➡️ Prefira piscina") : "";
+      return `<div class="sc">${ring(r.s)}<div class="t">${sp.e} ${sp.n}</div><div class="q" style="color:${colorFor(r.s)}">${labelFor(r.s)}</div><ul>${r.r.slice(0,2).map(x=>`<li>${esc(x)}</li>`).join("")||"<li>tudo certo</li>"}</ul>${indoor?`<div class="indoor">${indoor}</div>`:""}</div>`;
+    }).join("")}
+  </div>
+  ${curLoc.type!=="interior" && sst!=null ? (()=>{const w=wetsuit(sst);return `<div class="alert ${w.c}" style="margin-top:10px"><span>🦭</span><span>${w.t} · água ${r1(sst)}°C${curLoc.type==="lagoa"?" (estimada pelo mar próximo — lagoa/baía costuma variar)":""}</span></div>`})() : ""}
+  </section>`);
+
+  // --- DICAS ---
+  html.push(`<section class="card"><h2>Dicas de hoje</h2><ul class="tips">${buildTips(ni).map(t=>`<li>${t}</li>`).join("")}</ul></section>`);
+
+  // --- DIAS + GRÁFICO + HORAS ---
+  html.push(`<section class="card"><h2>Próximos 7 dias</h2><div class="days" id="days">${data.daily.time.map((d,i)=>{
+    const dt=new Date(d+"T12:00:00");
+    return `<button class="day ${i===selDay?"on":""}" data-d="${i}"><div class="d">${i===0?"Hoje":WD[dt.getDay()]+" "+dt.getDate()}</div><div class="e">${wIcon(data.daily.weather_code[i])}</div><div class="tt">${r0(data.daily.temperature_2m_min[i])}° / <b>${r0(data.daily.temperature_2m_max[i])}°</b></div><div class="rr">💧${data.daily.precipitation_probability_max[i]??"–"}% ${r1(data.daily.precipitation_sum[i])}mm</div><div class="rr" style="color:var(--mut)">💨${r0(data.daily.wind_gusts_10m_max[i])}</div></button>`}).join("")}</div>
+    <div style="margin-top:10px"><canvas id="chart"></canvas>
+    <div class="legend"><span><i style="background:var(--org)"></i>Temp °C</span><span><i style="background:var(--blue);height:8px"></i>Chuva mm</span><span><i style="background:#cbd5e1"></i>Vento km/h</span><span><i style="background:#64748b"></i>Rajada</span></div></div>
+  </section>`);
+
+  html.push(`<section class="card"><h2>Hora a hora <span id="dayLbl"></span></h2>
+    <div class="hr hhead"><div>Hora</div><div></div><div>Temp</div><div>Chuva</div><div>Vento</div><div style="text-align:right">🏊🚴🏃</div></div>
+    <div class="hours" id="hours"></div></section>`);
+
+  // --- MELHOR JANELA ---
+  html.push(`<section class="card"><h2>Melhor janela de treino (72h)</h2>
+    <div class="seg" id="segSport">${Object.entries(SPORTS).map(([k,s])=>`<button data-s="${k}" class="${k===winSport?"on":""}">${s.e} ${s.n}</button>`).join("")}<button data-s="brick" class="${winSport==="brick"?"on":""}">🔁 Brick</button></div>
+    <div class="seg" id="segDur">${[1,2,3,5].map(d=>`<button data-h="${d}" class="${d===winDur?"on":""}">${d}h</button>`).join("")}</div>
+    <div id="wins"></div></section>`);
+
+  // --- HIDRATAÇÃO E ALIMENTAÇÃO ---
+  html.push(`<section class="card"><h2>Hidratação e alimentação do treino</h2>
+    <div class="row2"><select id="nSport"><option value="bike">🚴 Ciclismo</option><option value="run">🏃 Corrida</option><option value="swim">🏊 Natação</option><option value="brick">🔁 Brick</option></select>
+    <select id="nDur"><option value="45">45 min</option><option value="60">1h</option><option value="90" selected>1h30</option><option value="120">2h</option><option value="180">3h</option><option value="240">4h</option><option value="300">5h+</option></select></div>
+    <div class="row2"><select id="nInt"><option value="leve">Leve (Z1–Z2)</option><option value="mod" selected>Moderado (Z3)</option><option value="forte">Forte / tiros (Z4+)</option></select>
+    <select id="nHora">${Array.from({length:15},(_,i)=>i+5).map(h=>`<option value="${h}" ${h===6?"selected":""}>Início ${String(h).padStart(2,"0")}h hoje</option>`).join("")}</select></div>
+    <div id="nOut"></div></section>`);
+
+  // --- CONFIANÇA ---
+  html.push(`<section class="card"><h2>Confiança da previsão</h2><div id="conf"></div></section>`);
+
+  // --- DIA DE PROVA ---
+  html.push(`<section class="card"><h2>Dia de prova</h2><div id="race"></div></section>`);
+
+  app.innerHTML = html.join("");
+
+  $("#days").addEventListener("click", e=>{const b=e.target.closest(".day"); if(!b) return; selDay=+b.dataset.d; document.querySelectorAll(".day").forEach(x=>x.classList.toggle("on",x===b)); renderDay();});
+  $("#segSport").addEventListener("click", e=>{const b=e.target.closest("button"); if(!b) return; winSport=b.dataset.s; [...$("#segSport").children].forEach(x=>x.classList.toggle("on",x===b)); renderWins();});
+  $("#segDur").addEventListener("click", e=>{const b=e.target.closest("button"); if(!b) return; winDur=+b.dataset.h; [...$("#segDur").children].forEach(x=>x.classList.toggle("on",x===b)); renderWins();});
+  ["#nSport","#nDur","#nInt","#nHora"].forEach(id=>$(id).addEventListener("change",renderNutri));
+  renderDay(); renderWins(); renderConf(); renderRace(); renderNutri(); renderTreinos();
+}
+
+function next3hRain(ni){
+  let mm=0, p=0;
+  for(let i=ni;i<ni+3&&i<data.hourly.time.length;i++){ mm+=data.hourly.precipitation[i]||0; p=Math.max(p,data.hourly.precipitation_probability[i]||0); }
+  return mm<0.2 && p<30 ? "seco" : `${r1(mm)}mm`;
+}
+
+function buildAlerts(ni){
+  const a=[]; const h=data.hourly;
+  // trovoada nas próximas 12h
+  for(let i=ni;i<ni+12&&i<h.time.length;i++){
+    const o=hourObj(i);
+    if(thunder(o)){ a.push({c:"r",i:"⚡",t:`Risco de trovoada por volta das ${h.time[i].slice(11)} — evite água aberta e estrada exposta.`}); break; }
+  }
+  for(let i=ni;i<ni+12&&i<h.time.length;i++){
+    if(h.wind_gusts_10m[i]>=50){ a.push({c:"r",i:"💨",t:`Rajadas de ${r0(h.wind_gusts_10m[i])} km/h às ${h.time[i].slice(11)} — perigoso para pedal com roda alta.`}); break; }
+  }
+  // vento sul / frente fria: virada para quadrante sul com rajada subindo nas próx 24h
+  const d0=h.wind_direction_10m[ni];
+  for(let i=ni+1;i<ni+24&&i<h.time.length;i++){
+    const d=h.wind_direction_10m[i];
+    const isSul = d>=150 && d<=230, wasSul = d0>=150&&d0<=230;
+    if(isSul && !wasSul && h.wind_gusts_10m[i]>30){
+      a.push({c:"y",i:"🌬️",t:`Virada para vento Sul (${r0(h.wind_gusts_10m[i])} km/h) por volta de ${fmtWhen(h.time[i])} — sinal de frente fria: temperatura cai e o mar agita.`}); break;
+    }
+  }
+  if(curLoc.type==="mar" && marine){
+    const o=hourObj(ni); if(o.wave!=null && o.wave>=1.5) a.push({c:"y",i:"🌊",t:`Mar agitado agora (${r1(o.wave)} m). Prefira lagoa/baía abrigada ou piscina.`});
+  }
+  return a;
+}
+function fmtWhen(t){
+  const d=new Date(t+":00"); const today=new Date(data.hourly.time[nowIdx()]+":00");
+  const diff=Math.round((new Date(t.slice(0,10)+"T00:00")-new Date(today.toISOString().slice(0,10)+"T00:00"))/864e5);
+  return (diff===0?"hoje ":diff===1?"amanhã ":WD[d.getDay()]+" ")+t.slice(11);
+}
+
+function buildTips(ni){
+  const t=[]; const d=data.daily, h=data.hourly;
+  const tmax=d.temperature_2m_max[0], uv=d.uv_index_max[0];
+  // janela fresca da manhã
+  let coolEnd=null;
+  for(let i=ni;i<h.time.length && h.time[i].slice(0,10)===d.time[0];i++){ if(h.apparent_temperature[i]>=27){coolEnd=h.time[i].slice(11);break;} }
+  if(tmax>=29) t.push(`🔥 Dia quente (máx ${r0(tmax)}°). ${coolEnd?`Sensação passa de 27° a partir das ${coolEnd} — longões antes disso.`:"Treine cedo."} Reforce sódio: ~500–1000 mg/h em treinos longos.`);
+  if(uv>=8) t.push(`🧴 UV ${r0(uv)} (muito alto). Protetor resistente à água e reaplicar após a natação.`);
+  if(d.temperature_2m_min[0]<=12) t.push(`🧤 Manhã fria (mín ${r0(d.temperature_2m_min[0])}°). Para o pedal: manguito, colete corta-vento e luva.`);
+  const g=d.wind_gusts_10m_max[0];
+  if(g>=40) t.push(`💨 Rajadas até ${r0(g)} km/h. Prefira roda de perfil baixo e rotas protegidas; vento ${card(d.wind_direction_10m_dominant[0])} dominante — comece o pedal contra o vento para voltar com ele a favor.`);
+  else t.push(`🧭 Vento dominante ${card(d.wind_direction_10m_dominant[0])} (máx ${r0(d.wind_speed_10m_max[0])} km/h). Saia contra o vento e volte a favor.`);
+  if((d.precipitation_probability_max[0]||0)>=60) t.push(`☔ Chuva provável hoje (${d.precipitation_probability_max[0]}%). Se pedalar, pneus com menos pressão e cuidado com faixas pintadas.`);
+  const o=hourObj(ni);
+  if(o.sst!=null && o.sst<19 && curLoc.type!=="interior") t.push(`🥶 Água a ${r1(o.sst)}°C: neoprene e touca dupla para nado longo.`);
+  // hidratação estimada pela sensação
+  const at=Math.max(...h.apparent_temperature.slice(ni,ni+6));
+  const ml = at>=30?"800–1000":at>=24?"600–800":"400–600";
+  t.push(`💧 Hidratação estimada nas próximas horas: ${ml} ml/h (ajuste ao seu suor).`);
+  return t;
+}
+
+function renderDay(){
+  const day=data.daily.time[selDay];
+  const idx=data.hourly.time.map((t,i)=>t.startsWith(day)?i:-1).filter(i=>i>=0);
+  const ni=nowIdx();
+  const dt=new Date(day+"T12:00:00");
+  $("#dayLbl").textContent = selDay===0?"hoje":WD[dt.getDay()]+" "+dt.getDate()+"/"+(dt.getMonth()+1);
+  $("#hours").innerHTML = idx.filter(i=>selDay>0||i>=ni).map(i=>{
+    const o=hourObj(i);
+    const sc=["swim","bike","run"].map(k=>{
+      if(k==="swim"&&curLoc.type==="interior") return `<div class="dot" style="background:#334155;color:#94a3b8">–</div>`;
+      const s=SPORTS[k].f(o).s; return `<div class="dot" style="background:${colorFor(s)}" title="${SPORTS[k].n}: ${s}">${Math.round(s/10)}</div>`;
+    }).join("");
+    return `<div class="hr ${o.is_day?"":"night"} ${i===ni?"cur":""}">
+      <div class="h">${o.time.slice(11)}</div><div>${wIcon(o.weather_code,o.is_day)}</div><div><b>${r0(o.temperature_2m)}°</b></div>
+      <div class="rain">${o.precipitation_probability??"–"}% ${o.precipitation>0?r1(o.precipitation)+"mm":""}</div>
+      <div><span class="arrow" style="transform:rotate(${(o.wind_direction_10m+180)%360}deg)">↑</span> ${r0(o.wind_speed_10m)}<span class="muted">/${r0(o.wind_gusts_10m)} ${card(o.wind_direction_10m)}</span></div>
+      <div class="dots">${sc}</div></div>`;
+  }).join("");
+  drawChart(idx);
+}
+
+function drawChart(idx){
+  const cv=$("#chart"); const dpr=window.devicePixelRatio||1;
+  const W=cv.clientWidth, Hh=170; cv.width=W*dpr; cv.height=Hh*dpr;
+  const g=cv.getContext("2d"); g.scale(dpr,dpr); g.clearRect(0,0,W,Hh);
+  const h=data.hourly;
+  const T=idx.map(i=>h.temperature_2m[i]), P=idx.map(i=>h.precipitation[i]||0), Wd=idx.map(i=>h.wind_speed_10m[i]), G=idx.map(i=>h.wind_gusts_10m[i]);
+  const pad={l:26,r:26,t:12,b:20}; const cw=W-pad.l-pad.r, ch=Hh-pad.t-pad.b;
+  const x=i=>pad.l+cw*(i/(idx.length-1));
+  const tmin=Math.floor(Math.min(...T))-2, tmax=Math.ceil(Math.max(...T))+2;
+  const wmax=Math.max(30,Math.ceil(Math.max(...G)/10)*10);
+  const pmax=Math.max(5,Math.ceil(Math.max(...P)));
+  g.font="10px system-ui"; g.fillStyle="#8d9bbd";
+  // grid
+  g.strokeStyle="#24314f"; g.lineWidth=1;
+  for(let k=0;k<=4;k++){const y=pad.t+ch*k/4; g.beginPath(); g.moveTo(pad.l,y); g.lineTo(W-pad.r,y); g.stroke();
+    g.textAlign="right"; g.fillText(Math.round(tmax-(tmax-tmin)*k/4)+"°",pad.l-3,y+3);
+    g.textAlign="left"; g.fillText(Math.round(wmax-wmax*k/4),W-pad.r+3,y+3);}
+  // noite
+  idx.forEach((i,k)=>{ if(!h.is_day[i]){ g.fillStyle="rgba(0,0,0,.25)"; g.fillRect(x(k)-cw/(idx.length-1)/2,pad.t,cw/(idx.length-1),ch);} });
+  // chuva
+  const bw=Math.max(3,cw/idx.length*0.7);
+  P.forEach((p,k)=>{ if(p<=0) return; const bh=ch*Math.min(1,p/pmax); g.fillStyle="rgba(56,189,248,.8)"; g.fillRect(x(k)-bw/2,pad.t+ch-bh,bw,bh); });
+  const line=(arr,mn,mx,col,dash,wd)=>{ g.strokeStyle=col; g.lineWidth=wd; g.setLineDash(dash); g.beginPath();
+    arr.forEach((v,k)=>{const y=pad.t+ch*(1-(v-mn)/(mx-mn)); k?g.lineTo(x(k),y):g.moveTo(x(k),y);}); g.stroke(); g.setLineDash([]); };
+  line(G,0,wmax,"#64748b",[3,3],1.5);
+  line(Wd,0,wmax,"#cbd5e1",[],1.5);
+  line(T,tmin,tmax,"#fb923c",[],2.5);
+  g.fillStyle="#8d9bbd"; g.textAlign="center";
+  idx.forEach((i,k)=>{ if(k%3===0) g.fillText(h.time[i].slice(11,13)+"h",x(k),Hh-5); });
+}
+
+function renderWins(){
+  const ni=nowIdx(); const N=Math.min(data.hourly.time.length, ni+72);
+  const sc = i => { const o=hourObj(i);
+    if(winSport==="brick") return Math.min(scoreBike(o).s, scoreRun(o).s);
+    if(winSport==="swim" && curLoc.type==="interior") return null;
+    return SPORTS[winSport].f(o).s; };
+  if(winSport==="swim" && curLoc.type==="interior"){ $("#wins").innerHTML=`<p class="muted">Escolha um local de praia ou lagoa para ver janelas de natação.</p>`; return; }
+  const cands=[];
+  for(let s=ni; s+winDur<=N; s++){
+    let min=101, sum=0, ok=true;
+    for(let k=0;k<winDur;k++){ const v=sc(s+k); if(!data.hourly.is_day[s+k]){ok=false;break;} min=Math.min(min,v); sum+=v; }
+    if(!ok) continue;
+    cands.push({s, avg:sum/winDur, min, score:Math.round(0.6*sum/winDur+0.4*min)});
+  }
+  cands.sort((a,b)=>b.score-a.score);
+  const pick=[];
+  for(const c of cands){ if(pick.every(p=>Math.abs(p.s-c.s)>=Math.max(3,winDur))) pick.push(c); if(pick.length>=4) break; }
+  if(!pick.length){ $("#wins").innerHTML=`<p class="muted">Nenhuma janela diurna de ${winDur}h nas próximas 72h.</p>`; return; }
+  const indoorTxt = winSport==="bike"?"rolo":winSport==="run"?"esteira":winSport==="brick"?"rolo + esteira":"piscina";
+  const ruim = pick[0].score<50 ? `<div class="alert y" style="margin-bottom:8px"><span>🏠</span><span>Nenhuma janela boa ao ar livre nas próximas 72h. Sugestão: treino indoor no <b>${indoorTxt}</b>.</span></div>` : "";
+  $("#wins").innerHTML = ruim + pick.map(p=>{
+    const t0=data.hourly.time[p.s], t1=data.hourly.time[p.s+winDur-1];
+    const o=hourObj(p.s);
+    const e=parseInt(t1.slice(11,13))+1;
+    return `<div class="win"><div><div class="w1">${fmtWhen(t0)}–${String(e).padStart(2,"0")}:00</div>
+      <div class="w2">${r0(o.temperature_2m)}° · vento ${r0(o.wind_speed_10m)} ${card(o.wind_direction_10m)} · chuva ${o.precipitation_probability??"–"}%${o.wave!=null&&curLoc.type==="mar"?" · ondas "+r1(o.wave)+"m":""}</div></div>
+      <span class="badge" style="background:${colorFor(p.score)}">${p.score<50&&winSport!=="swim"?"🏠 ":""}${p.score}</span></div>`;
+  }).join("") + `<p class="muted" style="margin-top:6px">Nota = 60% média + 40% pior hora da janela. Só horas com luz do dia.</p>`;
+}
+
+function renderConf(){
+  if(!models || !models.daily){ $("#conf").innerHTML=`<p class="muted">Comparação entre modelos indisponível agora.</p>`; return; }
+  const d=models.daily;
+  const rows=d.time.map((t,i)=>{
+    const P=MODELS.map(m=>d["precipitation_sum_"+m]?.[i]).filter(v=>v!=null);
+    const T=MODELS.map(m=>d["temperature_2m_max_"+m]?.[i]).filter(v=>v!=null);
+    const W=MODELS.map(m=>d["wind_speed_10m_max_"+m]?.[i]).filter(v=>v!=null);
+    if(P.length<2) return "";
+    const wet=P.filter(v=>v>=1).length; const rainAgree = wet===0 || wet===P.length;
+    const ts=Math.max(...T)-Math.min(...T), ws=Math.max(...W)-Math.min(...W);
+    let lvl = rainAgree && ts<=2 && ws<=8 ? "Alta" : (!rainAgree && (ts>3||ws>12)) || ts>4 ? "Baixa" : "Média";
+    const col = lvl==="Alta"?"var(--ok)":lvl==="Média"?"var(--mid)":"var(--nope)";
+    const dt=new Date(t+"T12:00:00");
+    return `<tr><td>${i===0?"Hoje":WD[dt.getDay()]+" "+dt.getDate()}</td>${MODELS.map(m=>`<td>${r1(d["precipitation_sum_"+m]?.[i])}</td>`).join("")}<td>±${r0(ts/2)}°</td><td><span class="badge" style="background:${col}">${lvl}</span></td></tr>`;
+  }).join("");
+  $("#conf").innerHTML = `<table><tr><th>Dia</th>${MODELS.map(m=>`<th>${MODEL_NAMES[m]}<br>mm</th>`).join("")}<th>Temp</th><th>Confiança</th></tr>${rows}</table>
+  <p class="muted" style="margin-top:8px">Comparo três modelos globais. Quando concordam sobre chuva, temperatura e vento, a previsão tende a acertar mais. Com confiança baixa, confira de novo mais perto do treino.</p>`;
+}
+
+
+function nutriPlan(sp,dur,it,at,hum){
+  let ml = at<18?400:at<23?550:at<27?700:at<31?850:1000;
+  if(hum>80 && at>=24) ml+=100;
+  if(sp==="swim") ml=Math.min(ml,400);
+  if(dur<=45 && it!=="forte") ml=Math.min(ml,500);
+  const na = dur<60 ? 0 : at<23?300:at<28?500:800;
+  let cho = dur<=60 ? (it==="forte"?20:0) : dur<=150 ? (it==="leve"?30:45) : (it==="leve"?50:75);
+  if(sp==="swim") cho = dur>75?20:0;
+  const totCho=Math.round(cho*dur/60), totMl=Math.round(ml*dur/60/50)*50;
+  const pre = dur>=120 || it==="forte" ? "Refeição 2–3h antes com 1–2 g/kg de carboidrato (ex.: pão + banana + mel, tapioca, aveia). Se treinar muito cedo: banana ou torrada com mel 30–45 min antes." : "Lanche leve 45–60 min antes (banana, torrada com mel) ou em jejum se for leve e curto.";
+  const durante = cho===0 ? "Só água (ou eletrólito se estiver quente)." :
+    `~${cho} g de carboidrato por hora (total ≈ ${totCho} g): ${cho>=60?"gel a cada 25–30 min + isotônico":"1 gel ou meia barra a cada 40–45 min"}${sp==="run"||sp==="brick"?". Na corrida, prefira gel (mais fácil de digerir)":""}.`;
+  const pos = dur>=90||it==="forte" ? "Até 1h depois: 20–30 g de proteína + 1 g/kg de carboidrato (ex.: iogurte + fruta + granola, ou arroz + frango). Reponha ~1,5× o peso perdido em líquidos." : "Refeição normal com proteína nas próximas 2h.";
+  const hidr = sp==="swim" ? "Deixe uma garrafa na borda: beba entre as séries." : sp==="bike"||sp==="brick" ? `Leve ${Math.max(1,Math.ceil(totMl/600))} caramanhola(s) de 600 ml${na? " com eletrólito":""}.` : (totMl>500?"Leve cinto/colete de hidratação ou planeje parada para água.":"Hidrate bem antes; garrafinha opcional.");
+  return `<div class="grid3" style="margin:0 0 10px"><div class="stat"><div class="v" style="color:var(--blue)">${ml}</div><div class="l">ml/h de líquido</div></div>
+    <div class="stat"><div class="v">${cho||"0"}</div><div class="l">g/h carboidrato</div></div><div class="stat"><div class="v">${na||"—"}</div><div class="l">mg/h de sódio</div></div></div>
+    <ul class="tips"><li>🍽️ <b>Antes:</b> ${pre}</li><li>⚡ <b>Durante:</b> ${durante}</li><li>💧 <b>Hidratação:</b> ${hidr} Total ≈ ${totMl} ml (sensação até ${r0(at)}°C).</li><li>🥛 <b>Depois:</b> ${pos}</li></ul>`;
+}
+function windowWeather(day,h0,dur){
+  const idx=data.hourly.time.map((t,i)=>t.startsWith(day)&&+t.slice(11,13)>=h0&&+t.slice(11,13)<h0+Math.ceil(dur/60)?i:-1).filter(i=>i>=0);
+  const di=Math.max(0,data.daily.time.indexOf(day));
+  return { at: idx.length? Math.max(...idx.map(i=>data.hourly.apparent_temperature[i])) : data.daily.temperature_2m_max[di],
+           hum: idx.length? Math.max(...idx.map(i=>data.hourly.relative_humidity_2m[i])) : 70, idx };
+}
+function renderNutri(){
+  const sp=$("#nSport").value, dur=+$("#nDur").value, it=$("#nInt").value, h0=+$("#nHora").value;
+  const w=windowWeather(data.daily.time[0],h0,dur);
+  $("#nOut").innerHTML = nutriPlan(sp,dur,it,w.at,w.hum) + `<p class="muted" style="margin-top:6px">Faixas gerais para amadores. Ajuste pela sua taxa de suor (pese-se antes e depois de um treino) e teste a nutrição de prova nos longões.</p>`;
+}
+
+/* ===================== TREINOS (TrainingPeaks + manuais) ===================== */
+// Lido do e-mail diário do TrainingPeaks em 08/11/2026 06:20. Peça ao Claude para atualizar.
+const TP_ATUALIZADO = "08/11/2026 06:20";
+const TP_TREINOS = [
+  {id:"tp-20261108", dia:"2026-11-08", titulo:"Rodagem 3:00h", sp:"bike", dur:180, it:"leve", desc:"Rodagem 3h ritmo · 180 min @ RPE 1–8 · TSS 180", fonte:"TrainingPeaks"},
+];
+const TP_DESCANSO = ["2026-11-09"];
+let meusTreinos = store.get("treinos", []);
+const SP_NOME = {swim:"🏊 Natação", bike:"🚴 Ciclismo", run:"🏃 Corrida", brick:"🔁 Brick"};
+const IT_NOME = {leve:"Leve (Z1–Z2)", mod:"Moderado (Z3)", forte:"Forte (Z4+)"};
+
+function bestSlot(day,sp,dur){
+  // retorna melhor início (hora) no dia, só com luz do dia, e a nota
+  const H=Math.ceil(dur/60); let best=null;
+  const ni=nowIdx();
+  for(let h=5; h+H<=20; h++){
+    let min=101,sum=0,ok=true;
+    for(let k=0;k<H;k++){
+      const i=data.hourly.time.indexOf(`${day}T${String(h+k).padStart(2,"0")}:00`);
+      if(i<0 || i<ni || !data.hourly.is_day[i]){ok=false;break;}
+      const o=hourObj(i);
+      const v = sp==="brick" ? Math.min(scoreBike(o).s,scoreRun(o).s) : sp==="swim" && curLoc.type==="interior" ? 60 : SPORTS[sp].f(o).s;
+      min=Math.min(min,v); sum+=v;
+    }
+    if(!ok) continue;
+    const sc=Math.round(0.6*sum/H+0.4*min);
+    if(!best || sc>best.sc) best={h,sc};
+  }
+  return best;
+}
+function renderTreinos(){
+  const box=$("#tabTreino"); if(!data){ box.innerHTML=`<div class="loading">Carregando previsão…</div>`; return; }
+  const dias=data.daily.time;
+  const todos=[...TP_TREINOS,...meusTreinos].filter(t=>dias.includes(t.dia)).sort((a,b)=>a.dia<b.dia?-1:a.dia>b.dia?1:0);
+  const hoje=dias[0];
+  let html=`<section class="card"><h2>Treinos programados <span>${esc(curLoc.n)}</span></h2>
+    <p class="muted">Horário sugerido pela previsão do local escolhido no topo. TrainingPeaks lido em ${TP_ATUALIZADO}.</p></section>`;
+  if(!todos.length) html+=`<section class="card"><p class="muted">Nenhum treino nos próximos 7 dias. Adicione abaixo.</p></section>`;
+  for(const t of todos){
+    const dt=new Date(t.dia+"T12:00:00");
+    const diaTxt = t.dia===hoje?"Hoje":WD[dt.getDay()]+" "+dt.getDate()+"/"+(dt.getMonth()+1);
+    const b=bestSlot(t.dia,t.sp,t.dur);
+    let sug;
+    if(!b){ sug=`<div class="alert y"><span>⏰</span><span>Sem janela com luz do dia restante para ${Math.round(t.dur/60*10)/10}h. ${t.sp==="bike"?"Faça no <b>rolo</b>.":t.sp==="run"?"Faça na <b>esteira</b>.":t.sp==="brick"?"Faça <b>rolo + esteira</b>.":"Vá para a <b>piscina</b>."}</span></div>`; }
+    else{
+      const fim=b.h+Math.ceil(t.dur/60);
+      const indoor = b.sc<50;
+      const w=windowWeather(t.dia,b.h,t.dur);
+      const o=hourObj(w.idx[0]);
+      const motivos = (t.sp==="brick"?scoreBike(o).r.concat(scoreRun(o).r):(SPORTS[t.sp]?SPORTS[t.sp].f(o).r:[])).slice(0,3).join(", ");
+      sug = indoor
+        ? `<div class="alert r"><span>🏠</span><span>Condições ruins ao ar livre (melhor nota do dia: ${b.sc}${motivos?" — "+esc(motivos):""}). ${t.sp==="bike"?"Faça no <b>rolo</b>.":t.sp==="run"?"Faça na <b>esteira</b>.":t.sp==="brick"?"Faça <b>rolo + esteira</b>.":"Prefira <b>piscina</b>."}</span></div>`
+        : `<div class="alert g"><span>⏰</span><span>Melhor horário: <b>${String(b.h).padStart(2,"0")}:00–${String(fim).padStart(2,"0")}:00</b> · nota ${b.sc} · ${r0(o.temperature_2m)}° · vento ${r0(o.wind_speed_10m)} ${card(o.wind_direction_10m)} · chuva ${o.precipitation_probability??"–"}%</span></div>`;
+      sug += `<details style="margin-top:8px"><summary class="muted">Hidratação e alimentação</summary><div style="margin-top:8px">${nutriPlan(t.sp,t.dur,t.it,w.at,w.hum)}</div></details>`;
+    }
+    html+=`<section class="card"><h2>${diaTxt} · ${SP_NOME[t.sp]} <span class="badge" style="background:#334155;color:var(--tx)">${t.fonte==="TrainingPeaks"?"TP":"meu"}</span></h2>
+      <div style="font-weight:700;font-size:17px">${esc(t.titulo)}</div>
+      <div class="muted" style="margin:2px 0 8px">${Math.floor(t.dur/60)}h${String(t.dur%60).padStart(2,"0")} · ${IT_NOME[t.it]}${t.desc?" · "+esc(t.desc):""}</div>
+      ${sug}
+      ${t.fonte!=="TrainingPeaks"?`<button class="iconbtn" style="margin-top:8px" data-del="${t.id}">Remover</button>`:""}
+    </section>`;
+  }
+  const descansos=TP_DESCANSO.filter(d=>dias.includes(d));
+  if(descansos.length) html+=`<section class="card"><p class="muted">😴 Sem treino no TrainingPeaks: ${descansos.map(d=>{const x=new Date(d+"T12:00:00");return WD[x.getDay()]+" "+x.getDate()+"/"+(x.getMonth()+1)}).join(", ")}.</p></section>`;
+  html+=`<section class="card"><h2>Adicionar treino</h2>
+    <input id="aTit" placeholder="Nome (ex.: Longão 18 km)" style="margin-bottom:8px">
+    <div class="row2"><select id="aDia">${dias.map((d,i)=>{const x=new Date(d+"T12:00:00");return `<option value="${d}">${i===0?"Hoje":WD[x.getDay()]+" "+x.getDate()+"/"+(x.getMonth()+1)}</option>`}).join("")}</select>
+    <select id="aSp"><option value="bike">🚴 Ciclismo</option><option value="run">🏃 Corrida</option><option value="swim">🏊 Natação</option><option value="brick">🔁 Brick</option></select></div>
+    <div class="row2"><select id="aDur">${[30,45,60,75,90,120,150,180,240,300].map(m=>`<option value="${m}" ${m===60?"selected":""}>${Math.floor(m/60)}h${String(m%60).padStart(2,"0")}</option>`).join("")}</select>
+    <select id="aIt"><option value="leve">Leve (Z1–Z2)</option><option value="mod">Moderado (Z3)</option><option value="forte">Forte (Z4+)</option></select></div>
+    <button class="btn" id="aAdd">Adicionar e sugerir horário</button></section>`;
+  box.innerHTML=html;
+  $("#aAdd").onclick=()=>{
+    const sp=$("#aSp").value;
+    meusTreinos.push({id:"m"+Date.now(), dia:$("#aDia").value, titulo:$("#aTit").value.trim()||SP_NOME[sp].slice(3), sp, dur:+$("#aDur").value, it:$("#aIt").value, desc:"", fonte:"meu"});
+    store.set("treinos",meusTreinos); renderTreinos();
+  };
+  box.querySelectorAll("[data-del]").forEach(bt=>bt.onclick=()=>{meusTreinos=meusTreinos.filter(x=>x.id!==bt.dataset.del);store.set("treinos",meusTreinos);renderTreinos();});
+}
+
+/* ===================== PERFORMANCE (Strava) ===================== */
+const STRAVA = {"geradoEm":"2026-11-08T09:00","periodo":[{"metrica":"horas","atual":19.3,"anterior":37.1,"variacao":-0.48},{"metrica":"natacao_km","atual":9.8,"anterior":12.7,"variacao":-0.228},{"metrica":"ciclismo_km","atual":264.8,"anterior":701.5,"variacao":-0.623},{"metrica":"corrida_km","atual":81.4,"anterior":107.9,"variacao":-0.246},{"metrica":"esforco","atual":609,"anterior":1115,"variacao":-0.454}],"semanas":[{"semana":"2026-08-17","natacao_h":1.32,"ciclismo_h":9.33,"corrida_h":2.22,"outros_h":0.71,"esforco":335},{"semana":"2026-08-24","natacao_h":0.69,"ciclismo_h":0,"corrida_h":3.02,"outros_h":0,"esforco":171},{"semana":"2026-08-31","natacao_h":1.22,"ciclismo_h":1.26,"corrida_h":1.24,"outros_h":0,"esforco":88},{"semana":"2026-09-07","natacao_h":0.97,"ciclismo_h":4.08,"corrida_h":2.22,"outros_h":0,"esforco":282},{"semana":"2026-09-14","natacao_h":0.3,"ciclismo_h":3.6,"corrida_h":1.36,"outros_h":0,"esforco":270},{"semana":"2026-09-21","natacao_h":1.6,"ciclismo_h":6.15,"corrida_h":2.91,"outros_h":0,"esforco":270},{"semana":"2026-09-28","natacao_h":1.36,"ciclismo_h":7.07,"corrida_h":2.7,"outros_h":0,"esforco":224},{"semana":"2026-10-05","natacao_h":0.95,"ciclismo_h":5.18,"corrida_h":2,"outros_h":1.22,"esforco":256},{"semana":"2026-10-12","natacao_h":1.02,"ciclismo_h":2.47,"corrida_h":3.96,"outros_h":0.95,"esforco":254},{"semana":"2026-10-19","natacao_h":0.96,"ciclismo_h":0,"corrida_h":0,"outros_h":0,"esforco":18},{"semana":"2026-10-26","natacao_h":0.67,"ciclismo_h":3.46,"corrida_h":1.57,"outros_h":0,"esforco":157},{"semana":"2026-11-02","natacao_h":0.48,"ciclismo_h":1.97,"corrida_h":1.84,"outros_h":0,"esforco":180}],"carga":[{"ate":"2026-11-07","agudo":200,"cronico":152,"razao":1.32,"status":"em atenção"}],"ritmos":[{"semana":"2026-08-17","corrida_s_km":339,"natacao_s_100m":111,"ciclismo_kmh":28.5},{"semana":"2026-08-24","corrida_s_km":349,"natacao_s_100m":112,"ciclismo_kmh":null},{"semana":"2026-08-31","corrida_s_km":352,"natacao_s_100m":116,"ciclismo_kmh":32.1},{"semana":"2026-09-07","corrida_s_km":278,"natacao_s_100m":125,"ciclismo_kmh":31.3},{"semana":"2026-09-14","corrida_s_km":326,"natacao_s_100m":112,"ciclismo_kmh":33.1},{"semana":"2026-09-21","corrida_s_km":321,"natacao_s_100m":122,"ciclismo_kmh":32.5},{"semana":"2026-09-28","corrida_s_km":352,"natacao_s_100m":121,"ciclismo_kmh":32.1},{"semana":"2026-10-05","corrida_s_km":324,"natacao_s_100m":112,"ciclismo_kmh":32},{"semana":"2026-10-12","corrida_s_km":323,"natacao_s_100m":115,"ciclismo_kmh":36.5},{"semana":"2026-10-19","corrida_s_km":null,"natacao_s_100m":123,"ciclismo_kmh":null},{"semana":"2026-10-26","corrida_s_km":336,"natacao_s_100m":105,"ciclismo_kmh":32},{"semana":"2026-11-02","corrida_s_km":321,"natacao_s_100m":115,"ciclismo_kmh":33.4}],"corridas_clima":[[23.2,325,"2026-11-02"],[19.9,324,"2026-10-29"],[18.1,306,"2026-10-18"],[18.6,343,"2026-10-15"],[19.7,324,"2026-10-14"],[17.1,354,"2026-10-13"],[21.3,301,"2026-10-09"],[16.7,306,"2026-10-03"],[15.4,347,"2026-10-01"],[20.5,338,"2026-09-28"],[18,318,"2026-09-26"],[13.2,278,"2026-09-24"],[17.9,326,"2026-09-19"],[15.4,257,"2026-09-13"],[18.6,278,"2026-09-12"],[18.1,291,"2026-09-08"],[13.1,302,"2026-09-07"],[16.4,328,"2026-09-05"],[23.5,370,"2026-08-29"],[17.5,323,"2026-08-27"],[14.5,299,"2026-08-22"],[18.2,334,"2026-08-20"]],"efeito_calor":[{"n":22,"seg_por_grau":4.4,"a":237,"b":4.45}],"prova":[{"etapa":"Natação","tempo_s":2172,"detalhe":"1830 m · 1:59/100 m"},{"etapa":"T1","tempo_s":304,"detalhe":"transição"},{"etapa":"Ciclismo","tempo_s":8959,"detalhe":"90,2 km · 36,2 km/h"},{"etapa":"T2","tempo_s":117,"detalhe":"transição"},{"etapa":"Corrida","tempo_s":6631,"detalhe":"21,1 km · 5:14/km"},{"etapa":"Total","tempo_s":18183,"detalhe":"+3:03 em relação à meta de 5h"}],"recentes":[{"id":"20896066645","dia":"2026-11-07","modalidade":"Corrida","distancia":"15 km","tempo_s":4800,"ritmo":"5:20/km","esforco":79,"temp_c":null,"vento_kmh":null},{"id":"20863046226","dia":"2026-11-04","modalidade":"Natação","distancia":"1500 m","tempo_s":1728,"ritmo":"1:55/100 m","esforco":10,"temp_c":null,"vento_kmh":null},{"id":"20828892022","dia":"2026-11-02","modalidade":"Corrida","distancia":"5,6 km","tempo_s":1809,"ritmo":"5:25/km","esforco":30,"temp_c":23.2,"vento_kmh":10},{"id":"20841523277","dia":"2026-11-02","modalidade":"Ciclismo","distancia":"65,7 km","tempo_s":7092,"ritmo":"33,4 km/h","esforco":61,"temp_c":21.1,"vento_kmh":6},{"id":"20841524903","dia":"2026-11-01","modalidade":"Ciclismo","distancia":"52 km","tempo_s":5853,"ritmo":"32 km/h","esforco":20,"temp_c":17.9,"vento_kmh":3},{"id":"20784422600","dia":"2026-10-29","modalidade":"Corrida","distancia":"8,1 km","tempo_s":2621,"ritmo":"5:24/km","esforco":42,"temp_c":19.9,"vento_kmh":8},{"id":"20774469035","dia":"2026-10-28","modalidade":"Natação","distancia":"1050 m","tempo_s":1031,"ritmo":"1:38/100 m","esforco":12,"temp_c":null,"vento_kmh":null},{"id":"20767354460","dia":"2026-10-28","modalidade":"Rolo","distancia":"56,9 km","tempo_s":6610,"ritmo":"31 km/h","esforco":50,"temp_c":null,"vento_kmh":null},{"id":"20752438795","dia":"2026-10-27","modalidade":"Corrida","distancia":"8,7 km","tempo_s":3013,"ritmo":"5:48/km","esforco":25,"temp_c":null,"vento_kmh":null},{"id":"20745227251","dia":"2026-10-26","modalidade":"Natação","distancia":"1225 m","tempo_s":1367,"ritmo":"1:52/100 m","esforco":8,"temp_c":null,"vento_kmh":null},{"id":"20681269776","dia":"2026-10-21","modalidade":"Natação","distancia":"1275 m","tempo_s":1364,"ritmo":"1:47/100 m","esforco":10,"temp_c":null,"vento_kmh":null},{"id":"20653591200","dia":"2026-10-19","modalidade":"Natação","distancia":"1525 m","tempo_s":2083,"ritmo":"2:17/100 m","esforco":8,"temp_c":null,"vento_kmh":null},{"id":"20636042540","dia":"2026-10-18","modalidade":"Corrida","distancia":"21,1 km","tempo_s":6471,"ritmo":"5:06/km","esforco":94,"temp_c":18.1,"vento_kmh":5},{"id":"20638682596","dia":"2026-10-18","modalidade":"Ciclismo","distancia":"90,2 km","tempo_s":8899,"ritmo":"36,5 km/h","esforco":58,"temp_c":14.9,"vento_kmh":6},{"id":"20646203686","dia":"2026-10-18","modalidade":"Natação","distancia":"1830 m","tempo_s":2172,"ritmo":"1:59/100 m","esforco":null,"temp_c":null,"vento_kmh":null}],"recordes":[["FastestMile",351,"s","2025-12-14"],["Fastest5k",1275,"s","2026-09-13"],["Fastest10k",2569,"s","2026-09-13"],["FastestHalfMarathon",6555,"s","2026-10-18"],["GreatestPower5s",484,"W","2025-04-24"],["GreatestPower1min",357,"W","2025-07-20"],["GreatestPower5min",321,"W","2025-07-20"],["GreatestPower20min",298,"W","2025-07-20"],["GreatestPower1hr",196,"W","2026-07-21"]],"zonas":{"ftp":175,"fc":[[0,131],[132,147],[148,163],[164,171],[172,null]]}};
+function renderPerf(){
+  const S=STRAVA, box=$("#tabPerf");
+  const P=Object.fromEntries(S.periodo.map(r=>[r.metrica,r]));
+  const pct=v=>v==null?"":`<span style="color:${Math.abs(v)<.05?"var(--mut)":v>0?"var(--ok)":"var(--bad)"}">${v>0?"+":""}${Math.round(v*100)}%</span>`;
+  const mmss=s=>s==null?"–":Math.floor(s/60)+":"+String(Math.round(s%60)).padStart(2,"0");
+  const hms=s=>{if(s==null)return"–";s=Math.round(s);const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+":"+String(m).padStart(2,"0"):m)+":"+String(x).padStart(2,"0")};
+  const dm=d=>d.slice(8,10)+"/"+d.slice(5,7);
+  const c=S.carga[0];
+  const cc = c.razao<0.8?"var(--mid)":c.razao<=1.3?"var(--ok)":c.razao<=1.5?"var(--mid)":"var(--nope)";
+  // barras semanais
+  const W=600,Hh=180,mx=Math.max(...S.semanas.map(r=>r.natacao_h+r.ciclismo_h+r.corrida_h+r.outros_h),1);
+  const bw=W/S.semanas.length;
+  const cores={natacao_h:"#38bdf8",ciclismo_h:"#fb923c",corrida_h:"#22c55e",outros_h:"#64748b"};
+  let bars="";
+  S.semanas.forEach((r,i)=>{let y=Hh-18;for(const k of ["natacao_h","ciclismo_h","corrida_h","outros_h"]){const h=(r[k]/mx)*(Hh-30);if(h>0){bars+=`<rect x="${i*bw+bw*.15}" y="${y-h}" width="${bw*.7}" height="${h}" fill="${cores[k]}" rx="2"/>`;y-=h;}}
+    bars+=`<text x="${i*bw+bw/2}" y="${Hh-4}" fill="#8d9bbd" font-size="11" text-anchor="middle">${i%2?"":dm(r.semana)}</text>`;
+    const tot=r.natacao_h+r.ciclismo_h+r.corrida_h+r.outros_h; if(tot>0) bars+=`<text x="${i*bw+bw/2}" y="${y-4}" fill="#e8eefc" font-size="10" text-anchor="middle">${String(Math.round(tot*10)/10).replace(".",",")}</text>`;});
+  const linha=(campo,cor,pace)=>{const rows=S.ritmos.filter(r=>r[campo]!=null); if(rows.length<2) return `<p class="muted">Poucos treinos</p>`;
+    const vs=rows.map(r=>r[campo]),mn=Math.min(...vs),mxv=Math.max(...vs),pad=(mxv-mn)*.2||5,w=300,h=90;
+    const y=v=> pace? 10+(v-(mn-pad))/((mxv+pad)-(mn-pad))*(h-20) : h-10-(v-(mn-pad))/((mxv+pad)-(mn-pad))*(h-20);
+    const x=i=>10+i*(w-50)/(rows.length-1);
+    const pts=rows.map((r,i)=>`${x(i)},${y(r[campo])}`).join(" "); const l=rows[rows.length-1];
+    return `<svg viewBox="0 0 ${w} ${h}" width="100%"><polyline points="${pts}" fill="none" stroke="${cor}" stroke-width="2.5" stroke-linejoin="round"/>${rows.map((r,i)=>`<circle cx="${x(i)}" cy="${y(r[campo])}" r="3" fill="${cor}"/>`).join("")}<text x="${x(rows.length-1)+6}" y="${y(l[campo])+4}" fill="#e8eefc" font-size="12">${pace?mmss(l[campo]):String(l[campo]).replace(".",",")}</text></svg>`;};
+  // dispersão calor
+  const CC=S.corridas_clima, tx=CC.map(r=>r[0]), py=CC.map(r=>r[1]);
+  const t0=Math.min(...tx)-1,t1=Math.max(...tx)+1,p0=Math.min(...py)-10,p1=Math.max(...py)+10,sw=320,sh=170;
+  const X=t=>34+(t-t0)/(t1-t0)*(sw-44), Y=p=>10+(p-p0)/(p1-p0)*(sh-34);
+  const e=S.efeito_calor[0];
+  let sc=`<line x1="${X(t0+1)}" y1="${Y(e.a+e.b*(t0+1))}" x2="${X(t1-1)}" y2="${Y(e.a+e.b*(t1-1))}" stroke="#94a3b8" stroke-dasharray="5 4" stroke-width="2"/>`;
+  CC.forEach(r=>sc+=`<circle cx="${X(r[0])}" cy="${Y(r[1])}" r="4.5" fill="#22c55e" fill-opacity=".8"/>`);
+  for(let t=Math.ceil(t0/5)*5;t<=t1;t+=5) sc+=`<text x="${X(t)}" y="${sh-6}" fill="#8d9bbd" font-size="11" text-anchor="middle">${t}°</text>`;
+  [p0+10,(p0+p1)/2,p1-10].forEach(p=>sc+=`<text x="2" y="${Y(p)+4}" fill="#8d9bbd" font-size="10">${mmss(p)}</text>`);
+  const ROT={FastestMile:"Corrida 1 milha",Fastest5k:"Corrida 5 km",Fastest10k:"Corrida 10 km",FastestHalfMarathon:"Corrida 21 km",GreatestPower5s:"Potência 5 s",GreatestPower1min:"Potência 1 min",GreatestPower5min:"Potência 5 min",GreatestPower20min:"Potência 20 min",GreatestPower1hr:"Potência 1 h"};
+  box.innerHTML = `
+  <section class="card"><h2>Últimas 4 semanas <span>Strava · ${S.geradoEm.slice(8,10)}/${S.geradoEm.slice(5,7)}</span></h2>
+    <div class="grid3">
+      <div class="stat"><div class="v">${String(P.horas.atual).replace(".",",")}h</div><div class="l">treino ${pct(P.horas.variacao)}</div></div>
+      <div class="stat"><div class="v">${String(P.natacao_km.atual).replace(".",",")}</div><div class="l">km natação ${pct(P.natacao_km.variacao)}</div></div>
+      <div class="stat"><div class="v">${Math.round(P.ciclismo_km.atual)}</div><div class="l">km ciclismo ${pct(P.ciclismo_km.variacao)}</div></div>
+      <div class="stat"><div class="v">${Math.round(P.corrida_km.atual)}</div><div class="l">km corrida ${pct(P.corrida_km.variacao)}</div></div>
+      <div class="stat"><div class="v">${Math.round(P.esforco.atual)}</div><div class="l">esforço ${pct(P.esforco.variacao)}</div></div>
+      <div class="stat"><div class="v" style="color:${cc}">${String(c.razao).replace(".",",")}</div><div class="l">carga aguda/crônica</div></div>
+    </div>
+    <div class="alert ${c.razao<=1.3&&c.razao>=0.8?"g":"y"}" style="margin-top:10px">Carga ${c.status}: esforço de ${c.agudo} nos últimos 7 dias vs média de ${c.cronico}/semana. Faixa segura: 0,8 a 1,3.</div>
+    <p class="muted" style="margin-top:6px">Variação em relação às 4 semanas anteriores (que incluíam o pico pré-70.3).</p></section>
+  <section class="card"><h2>Volume semanal (horas)</h2>
+    <svg viewBox="0 0 ${W} ${Hh}" width="100%">${bars}</svg>
+    <div class="legend"><span><i style="background:#38bdf8;height:8px"></i>Natação</span><span><i style="background:#fb923c;height:8px"></i>Ciclismo</span><span><i style="background:#22c55e;height:8px"></i>Corrida</span><span><i style="background:#64748b;height:8px"></i>Outros</span></div></section>
+  <section class="card"><h2>Evolução do ritmo (semanal)</h2>
+    <div class="muted">🏃 Corrida min/km (para cima = mais rápido)</div>${linha("corrida_s_km","#22c55e",true)}
+    <div class="muted">🏊 Natação min/100 m</div>${linha("natacao_s_100m","#38bdf8",true)}
+    <div class="muted">🚴 Ciclismo na rua km/h</div>${linha("ciclismo_kmh","#fb923c",false)}</section>
+  <section class="card"><h2>Calor × ritmo na corrida</h2>
+    <p class="muted">Cada grau a mais tem custado <b style="color:var(--tx)">+${String(e.seg_por_grau).replace(".",",")} s/km</b> (${e.n} corridas com clima registrado).</p>
+    <svg viewBox="0 0 ${sw} ${sh}" width="100%">${sc}</svg></section>
+  <section class="card"><h2>Ironman 70.3 · 18/10/2026</h2>
+    <table>${S.prova.map(r=>`<tr${r.etapa==="Total"?' style="font-weight:700"':""}><td>${r.etapa}</td><td>${hms(r.tempo_s)}</td><td style="text-align:right" class="muted">${esc(r.detalhe)}</td></tr>`).join("")}</table></section>
+  <section class="card"><h2>Recordes pessoais</h2>
+    <table>${S.recordes.map(([k,v,u,d])=>`<tr><td>${ROT[k]||k}</td><td>${u==="s"?hms(v):v+" W"}</td><td class="muted">${d.slice(8,10)}/${d.slice(5,7)}/${d.slice(0,4)}</td></tr>`).join("")}</table></section>
+  <section class="card"><h2>Zonas <span>FTP ${S.zonas.ftp} W</span></h2>
+    <table><tr><th>Zona FC</th><th>bpm</th></tr>${S.zonas.fc.map(([a,b],i)=>`<tr><td>Z${i+1}</td><td>${a}${b?"–"+b:"+"}</td></tr>`).join("")}</table></section>
+  <section class="card"><h2>Treinos recentes</h2>
+    <table><tr><th>Dia</th><th>Tipo</th><th>Dist.</th><th>Tempo</th><th>Ritmo</th></tr>${S.recentes.map(r=>`<tr><td>${dm(r.dia)}</td><td>${esc(r.modalidade)}</td><td>${r.distancia||"–"}</td><td>${hms(r.tempo_s)}</td><td>${r.ritmo||"–"}</td></tr>`).join("")}</table></section>
+  <p class="muted" style="text-align:center">Dados do Strava de ${S.geradoEm.slice(8,10)}/${S.geradoEm.slice(5,7)}. Para atualizar, peça ao Claude uma nova versão do app.</p>`;
+}
+
+/* ===================== DIA DE PROVA ===================== */
+function allLocs(){ return PRESETS.concat(custom); }
+function renderRace(){
+  const locs=allLocs();
+  const today=new Date(data.daily.time[0]+"T00:00:00");
+  const rd=new Date(race.date+"T00:00:00");
+  const days=Math.round((rd-today)/864e5);
+  $("#race").innerHTML = `
+    <input id="rName" value="${esc(race.name)}" style="margin-bottom:8px">
+    <div class="row2"><input type="date" id="rDate" value="${race.date}"><select id="rLoc">${locs.map((l,i)=>`<option value="${i}" ${i==race.loc?"selected":""}>${esc(l.n)}</option>`).join("")}</select></div>
+    <div id="rOut" class="muted">${days<0?"Prova já passou — defina a próxima.":days===0?"<b style='color:var(--tx)'>É hoje! Boa prova! 🔥</b>":`<b style="color:var(--tx);font-size:22px">${days}</b> dias para a prova.`}</div>
+    <div style="margin-top:10px"><button class="btn" id="rGo">${days>=0&&days<=15?"Ver previsão do dia da prova":"Ver histórico desta data (últimos 5 anos)"}</button></div>
+    <div id="rRes" style="margin-top:10px"></div>`;
+  const save=()=>{race={name:$("#rName").value,date:$("#rDate").value,loc:+$("#rLoc").value,start:6};store.set("race",race);};
+  $("#rName").onchange=save; $("#rLoc").onchange=save;
+  $("#rDate").onchange=()=>{save();renderRace();};
+  $("#rGo").onclick=()=>{save(); raceLookup(days);};
+}
+async function raceLookup(days){
+  const l=allLocs()[race.loc]||PRESETS[0]; const out=$("#rRes");
+  out.innerHTML=`<p class="muted">Buscando…</p>`;
+  try{
+    if(days>=0 && days<=15){
+      const f=await getJSON(fcUrl(l,16));
+      const m= l.type!=="interior" ? await getJSON(marUrl(l,8)).catch(()=>null) : null;
+      const hrs=f.hourly.time.map((t,i)=>t.startsWith(race.date)?i:-1).filter(i=>i>=0 && +f.hourly.time[i].slice(11,13)>=6 && +f.hourly.time[i].slice(11,13)<=16);
+      const sstI = m ? m.hourly.time.indexOf(race.date+"T07:00") : -1;
+      const sst = sstI>=0 ? m.hourly.sea_surface_temperature[sstI] : null;
+      const wave = sstI>=0 ? m.hourly.wave_height[sstI] : null;
+      const ws = sst!=null ? wetsuit(sst) : null;
+      out.innerHTML = `<p style="margin-bottom:6px"><b>${esc(l.n)}</b> · ${days>7?"previsão de longo prazo (baixa precisão)":"previsão"}</p>
+      ${sst!=null?`<div class="alert ${ws.c}" style="margin-bottom:8px">🦭 Água ~${r1(sst)}°C${wave!=null&&l.type==="mar"?` · ondas ${r1(wave)} m`:""} — ${ws.t}</div>`:""}
+      <table><tr><th>Hora</th><th></th><th>Temp</th><th>Sens.</th><th>Chuva</th><th>Vento</th></tr>
+      ${hrs.map(i=>`<tr><td>${f.hourly.time[i].slice(11)}</td><td>${wIcon(f.hourly.weather_code[i],1)}</td><td>${r0(f.hourly.temperature_2m[i])}°</td><td>${r0(f.hourly.apparent_temperature[i])}°</td><td style="color:var(--blue)">${f.hourly.precipitation_probability[i]??"–"}%</td><td>${r0(f.hourly.wind_speed_10m[i])}/${r0(f.hourly.wind_gusts_10m[i])} ${card(f.hourly.wind_direction_10m[i])}</td></tr>`).join("")}</table>`;
+    }else{
+      const [Y,M,Dd]=race.date.split("-").map(Number);
+      const thisYear=new Date().getFullYear();
+      const years=[1,2,3,4,5].map(k=>thisYear-k);
+      const reqs=years.map(y=>{
+        const s=new Date(Date.UTC(y,M-1,Dd-3)).toISOString().slice(0,10), e=new Date(Date.UTC(y,M-1,Dd+3)).toISOString().slice(0,10);
+        return getJSON(`https://archive-api.open-meteo.com/v1/archive?latitude=${l.lat}&longitude=${l.lon}&start_date=${s}&end_date=${e}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max&timezone=America%2FSao_Paulo`).then(j=>({y,j})).catch(()=>null);
+      });
+      const res=(await Promise.all(reqs)).filter(Boolean);
+      if(!res.length) throw new Error("sem dados");
+      let all={tx:[],tn:[],p:[],w:[],g:[]};
+      const rows=res.map(({y,j})=>{
+        const d=j.daily; const mid=Math.floor(d.time.length/2);
+        d.temperature_2m_max.forEach(v=>v!=null&&all.tx.push(v)); d.temperature_2m_min.forEach(v=>v!=null&&all.tn.push(v));
+        d.precipitation_sum.forEach(v=>v!=null&&all.p.push(v)); d.wind_speed_10m_max.forEach(v=>v!=null&&all.w.push(v)); d.wind_gusts_10m_max.forEach(v=>v!=null&&all.g.push(v));
+        return `<tr><td>${y}</td><td>${r0(d.temperature_2m_min[mid])}° / ${r0(d.temperature_2m_max[mid])}°</td><td style="color:var(--blue)">${r1(d.precipitation_sum[mid])} mm</td><td>${r0(d.wind_speed_10m_max[mid])} / ${r0(d.wind_gusts_10m_max[mid])}</td></tr>`;
+      }).join("");
+      const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
+      const rainy=all.p.filter(v=>v>=1).length/all.p.length*100;
+      out.innerHTML=`<p style="margin-bottom:8px"><b>${esc(l.n)}</b> — como costuma ser o clima nessa época (±3 dias, ${res.length} anos):</p>
+      <div class="grid3" style="margin:0 0 10px"><div class="stat"><div class="v">${r0(avg(all.tn))}°/${r0(avg(all.tx))}°</div><div class="l">mín/máx média</div></div>
+      <div class="stat"><div class="v" style="color:var(--blue)">${r0(rainy)}%</div><div class="l">dias com chuva</div></div>
+      <div class="stat"><div class="v">${r0(avg(all.g))}</div><div class="l">rajada média km/h</div></div></div>
+      <table><tr><th>Ano</th><th>Mín/Máx</th><th>Chuva</th><th>Vento/Rajada</th></tr>${rows}</table>
+      <p class="muted" style="margin-top:6px">A previsão de verdade aparece aqui a partir de 15 dias antes da prova.</p>`;
+    }
+  }catch(e){ out.innerHTML=`<p class="err">Não consegui buscar (${esc(e.message)}).</p>`; }
+}
+
+/* ===================== SELETOR DE LOCAL ===================== */
+function fillSelect(){
+  const sel=$("#loc"); const groups={};
+  PRESETS.forEach((p,i)=>{(groups[p.g]=groups[p.g]||[]).push(`<option value="p${i}">${esc(p.n)}</option>`)});
+  let h=Object.entries(groups).map(([g,o])=>`<optgroup label="${esc(g)}">${o.join("")}</optgroup>`).join("");
+  if(custom.length) h=`<optgroup label="Meus locais">${custom.map((c,i)=>`<option value="c${i}">${esc(c.n)}</option>`).join("")}</optgroup>`+h;
+  sel.innerHTML=h;
+  const pi=PRESETS.findIndex(p=>p.lat===curLoc.lat&&p.lon===curLoc.lon);
+  const ci=custom.findIndex(p=>p.lat===curLoc.lat&&p.lon===curLoc.lon);
+  if(ci>=0) sel.value="c"+ci; else if(pi>=0) sel.value="p"+pi;
+  else { sel.insertAdjacentHTML("afterbegin",`<option value="x">${esc(curLoc.n)}</option>`); sel.value="x"; }
+}
+$("#loc").onchange=e=>{
+  const v=e.target.value; if(v==="x") return;
+  curLoc = v[0]==="p" ? PRESETS[+v.slice(1)] : custom[+v.slice(1)];
+  store.set("loc",curLoc); load();
+};
+$("#btnRefresh").onclick=()=>load();
+$("#btnSearch").onclick=()=>{ $("#sheet").classList.add("open"); $("#q").focus(); };
+$("#closeSheet").onclick=()=>$("#sheet").classList.remove("open");
+let qT;
+$("#q").oninput=e=>{
+  clearTimeout(qT); const q=e.target.value.trim(); if(q.length<3){$("#results").innerHTML="";return;}
+  qT=setTimeout(async()=>{
+    try{
+      const j=await getJSON(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=20&language=pt&countryCode=BR`);
+      const r=(j.results||[]).filter(x=>(x.admin1||"").includes("Santa Catarina"));
+      $("#results").innerHTML = r.length ? r.map((x,i)=>`<div class="res" data-i="${i}"><b>${esc(x.name)}</b> <span class="muted">${esc(x.admin2||"")}</span></div>`).join("") : `<p class="muted">Nada encontrado em SC.</p>`;
+      $("#results").onclick=ev=>{
+        const d=ev.target.closest(".res"); if(!d) return; const x=r[+d.dataset.i];
+        // perto do litoral? (aprox.: longitude a leste de -49 ou litoral sul)
+        const coast = x.longitude > -48.95 || (x.latitude < -28.3 && x.longitude > -49.8 && x.longitude > -49.0 - (-(x.latitude)-28.3)*0.6);
+        const loc={g:"Meus locais", n:x.name, lat:+x.latitude.toFixed(4), lon:+x.longitude.toFixed(4), type: coast?"mar":"interior"};
+        if(!custom.some(c=>c.lat===loc.lat&&c.lon===loc.lon)){ custom.unshift(loc); custom=custom.slice(0,8); store.set("custom",custom); }
+        curLoc=loc; store.set("loc",curLoc); $("#sheet").classList.remove("open"); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
+(()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
+renderPerf(); renderTreinos();
+fillSelect(); load();
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
+      };
+    }catch(err){ $("#results").innerHTML=`<p class="err">Erro na busca.</p>`; }
+  },350);
+};
+$("#btnGeo").onclick=()=>{
+  if(!navigator.geolocation){ $("#upd").textContent="Localização indisponível neste navegador."; return; }
+  $("#upd").textContent="Obtendo localização…";
+  navigator.geolocation.getCurrentPosition(p=>{
+    const lat=p.coords.latitude, lon=p.coords.longitude;
+    // escolhe o preset mais próximo para herdar o tipo (mar/lagoa/interior)
+    let best=PRESETS[0], bd=1e9; PRESETS.forEach(x=>{const d=(x.lat-lat)**2+(x.lon-lon)**2; if(d<bd){bd=d;best=x;}});
+    curLoc={g:"GPS", n:"Minha localização", lat:+lat.toFixed(4), lon:+lon.toFixed(4), type: bd<0.01?best.type:(best.type==="mar"&&bd<0.04?"mar":"interior")};
+    store.set("loc",curLoc); $("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
+(()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
+renderPerf(); renderTreinos();
+fillSelect(); load();
+  }, err=>{ $("#upd").textContent="Não foi possível obter a localização ("+err.message+")."; }, {timeout:10000});
+};
+window.addEventListener("resize",()=>{ if(data) renderDay(); });
+
+$("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#tabs").children].forEach(x=>x.classList.toggle("on",x===b));document.querySelectorAll("main.tab").forEach(m=>m.hidden=m.id!==b.dataset.t);store.set("tab",b.dataset.t);if(b.dataset.t==="app"&&data)renderDay();window.scrollTo(0,0);};
+(()=>{const t=store.get("tab","tabTreino");const b=[...$("#tabs").children].find(x=>x.dataset.t===t);if(b)b.click();})();
+renderPerf(); renderTreinos();
+fillSelect(); load();
+</script>
+</body>
+</html>
