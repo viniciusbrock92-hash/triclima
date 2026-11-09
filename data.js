@@ -1,24 +1,42 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-08T18:00",
- "tpAtualizado": "08/11/2026 06:20",
+ "geradoEm": "2026-11-09T03:43",
+ "tpAtualizado": "09/11/2026 03:20",
  "tpTreinos": [
   {
-   "id": "tp-20261108",
-   "dia": "2026-11-08",
-   "titulo": "Rodagem 3:00h",
+   "id": "tp-20261109-1",
+   "dia": "2026-11-09",
+   "titulo": "Base ciclismo - 90min - W",
    "sp": "bike",
-   "dur": 180,
+   "dur": 90,
    "it": "leve",
-   "desc": "Rodagem 3h ritmo · 180 min @ RPE 1–8 · TSS 180",
+   "desc": "90 min em Z2 (190–226 W). TSS 88.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261109-2",
+   "dia": "2026-11-09",
+   "titulo": "Natação piscina 25m (4x200 8x100m)",
+   "sp": "swim",
+   "dur": 40,
+   "it": "forte",
+   "desc": "2000 m: aquec. 500 m solto; 3x200 m forte (1:18–1:26/100m) i=1'; 6x100 m forte (1:09–1:11/100m) i=45\"; desaq. 300 m leve.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261110-1",
+   "dia": "2026-11-10",
+   "titulo": "Corrida leve 40min",
+   "sp": "run",
+   "dur": 40,
+   "it": "leve",
+   "desc": "40 min em Z1 (7:16–8:28/km), ~5,8 km.",
    "fonte": "TrainingPeaks"
   }
  ],
- "tpDescanso": [
-  "2026-11-09"
- ],
+ "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-08T18:00",
+  "geradoEm": "2026-11-09T03:43",
   "periodo": [
    {
     "metrica": "horas",
