@@ -1,28 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-09T11:44",
- "tpAtualizado": "09/11/2026 03:20",
+ "geradoEm": "2026-11-10T03:44",
+ "tpAtualizado": "10/11/2026 03:19",
  "tpTreinos": [
-  {
-   "id": "tp-20261109-1",
-   "dia": "2026-11-09",
-   "titulo": "Base ciclismo - 90min - W",
-   "sp": "bike",
-   "dur": 90,
-   "it": "leve",
-   "desc": "1h30 em Z2 (190–226 W). TSS 88",
-   "fonte": "TrainingPeaks"
-  },
-  {
-   "id": "tp-20261109-2",
-   "dia": "2026-11-09",
-   "titulo": "Natação piscina 25m (4x200 8x100m)",
-   "sp": "swim",
-   "dur": 40,
-   "it": "forte",
-   "desc": "2000 m: 500 m solto, 3x200 m moderado, 6x100 m forte, 300 m leve",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261110-1",
    "dia": "2026-11-10",
@@ -32,11 +12,41 @@ window.TRI_DATA = {
    "it": "leve",
    "desc": "40 min Z1 (7:16–8:28/km), ~5,8 km",
    "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261111-1",
+   "dia": "2026-11-11",
+   "titulo": "Big gear 5x 5/5",
+   "sp": "bike",
+   "dur": 90,
+   "it": "forte",
+   "desc": "20 min leve + 5x (5 min big gear 248–288 W Z4–Z5 / 5 min girando) + 20 min leve",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261111-2",
+   "dia": "2026-11-11",
+   "titulo": "T2",
+   "sp": "run",
+   "dur": 30,
+   "it": "forte",
+   "desc": "Transição após o pedal: 30 min a 5:05–5:28/km (Z3–Z5a), ~6,6 km",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261111-3",
+   "dia": "2026-11-11",
+   "titulo": "Natação piscina 25 (Intervalos de intensidade)",
+   "sp": "swim",
+   "dur": 40,
+   "it": "forte",
+   "desc": "2000 m: 400 m leve, 4x100 m forte, 10x50 m forte, 20x25 m forte, 200 m leve",
+   "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-09T11:44",
+  "geradoEm": "2026-11-10T03:44",
   "periodo": [
    {
     "metrica": "horas",
