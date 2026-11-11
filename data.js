@@ -1,18 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-10T11:44",
- "tpAtualizado": "10/11/2026 03:19",
+ "geradoEm": "2026-11-11T03:43",
+ "tpAtualizado": "11/11/2026 03:20",
  "tpTreinos": [
-  {
-   "id": "tp-20261110-1",
-   "dia": "2026-11-10",
-   "titulo": "Corrida leve 40min",
-   "sp": "run",
-   "dur": 40,
-   "it": "leve",
-   "desc": "40 min Z1 (7:16–8:28/km), ~5,8 km",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261111-1",
    "dia": "2026-11-11",
@@ -20,7 +10,7 @@ window.TRI_DATA = {
    "sp": "bike",
    "dur": 90,
    "it": "forte",
-   "desc": "20 min leve + 5x (5 min big gear 248–288 W Z4–Z5 / 5 min girando) + 20 min leve",
+   "desc": "Aquec. 20 min leve (122–193 W); 5x 5 min big gear 248–288 W (Z4–Z5), marcha pesada e rotação baixa, com 5 min girando; desaquec. 20 min",
    "fonte": "TrainingPeaks"
   },
   {
@@ -36,17 +26,27 @@ window.TRI_DATA = {
   {
    "id": "tp-20261111-3",
    "dia": "2026-11-11",
-   "titulo": "Natação piscina 25 (Intervalos de intensidade)",
+   "titulo": "natação piscina 25 (Intervalos de intensidade)",
    "sp": "swim",
    "dur": 40,
    "it": "forte",
-   "desc": "2000 m: 400 m leve, 4x100 m forte, 10x50 m forte, 20x25 m forte, 200 m leve",
+   "desc": "2000 m: 400 m leve; 4x100 m forte (1:30–1:34/100m), 10x50 m forte, 20x25 m forte; 200 m leve (duração estimada)",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261112-1",
+   "dia": "2026-11-12",
+   "titulo": "Intervalado - 4/4/4",
+   "sp": "run",
+   "dur": 48,
+   "it": "forte",
+   "desc": "10 min Z1; 4x800 m Z3 (5:05–5:28/km) p=1'; 4x400 m Z4–Z5 (4:25–4:59/km); 4x200 m Z5 (3:48–4:25/km); 5 min Z1",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-10T11:44",
+  "geradoEm": "2026-11-11T03:43",
   "periodo": [
    {
     "metrica": "horas",
