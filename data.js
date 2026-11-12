@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-12T03:43",
+ "geradoEm": "2026-11-12T11:43",
  "tpAtualizado": "12/11/2026 03:21",
  "tpTreinos": [
   {
@@ -36,13 +36,13 @@ window.TRI_DATA = {
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-12T03:43",
+  "geradoEm": "2026-11-12T11:43",
   "periodo": [
    {
     "metrica": "horas",
-    "atual": 17.1,
-    "anterior": 38.9,
-    "variacao": -0.56
+    "atual": 17.3,
+    "anterior": 39.4,
+    "variacao": -0.561
    },
    {
     "metrica": "natacao_km",
@@ -58,15 +58,15 @@ window.TRI_DATA = {
    },
    {
     "metrica": "corrida_km",
-    "atual": 71.4,
-    "anterior": 112.7,
-    "variacao": -0.366
+    "atual": 72.6,
+    "anterior": 118,
+    "variacao": -0.385
    },
    {
     "metrica": "esforco",
-    "atual": 525,
-    "anterior": 1101,
-    "variacao": -0.523
+    "atual": 557,
+    "anterior": 1109,
+    "variacao": -0.498
    }
   ],
   "semanas": [
@@ -162,18 +162,18 @@ window.TRI_DATA = {
     "semana": "2026-11-09",
     "natacao_h": 0,
     "ciclismo_h": 0,
-    "corrida_h": 0.54,
+    "corrida_h": 1.23,
     "outros_h": 0,
-    "esforco": 6
+    "esforco": 46
    }
   ],
   "carga": [
    {
-    "ate": "2026-11-11",
-    "agudo": 85,
-    "cronico": 131,
-    "razao": 0.65,
-    "status": "abaixo do ideal"
+    "ate": "2026-11-12",
+    "agudo": 125,
+    "cronico": 139,
+    "razao": 0.9,
+    "status": "na faixa ideal"
    }
   ],
   "ritmos": [
@@ -245,12 +245,17 @@ window.TRI_DATA = {
    },
    {
     "semana": "2026-11-09",
-    "corrida_s_km": 383,
+    "corrida_s_km": 387,
     "natacao_s_100m": null,
     "ciclismo_kmh": null
    }
   ],
   "corridas_clima": [
+   [
+    16.6,
+    390,
+    "2026-11-12"
+   ],
    [
     15,
     383,
@@ -369,10 +374,10 @@ window.TRI_DATA = {
   ],
   "efeito_calor": [
    {
-    "n": 23,
-    "seg_por_grau": 3.1,
-    "a": 264.2,
-    "b": 3.12
+    "n": 24,
+    "seg_por_grau": 2.6,
+    "a": 276.4,
+    "b": 2.61
    }
   ],
   "prova": [
@@ -408,6 +413,17 @@ window.TRI_DATA = {
    }
   ],
   "recentes": [
+   {
+    "id": "20957186393",
+    "dia": "2026-11-12",
+    "modalidade": "Corrida",
+    "distancia": "6,4 km",
+    "tempo_s": 2509,
+    "ritmo": "6:30/km",
+    "esforco": 40,
+    "temp_c": 16.6,
+    "vento_kmh": 3
+   },
    {
     "id": "20943615216",
     "dia": "2026-11-11",
@@ -561,38 +577,9 @@ window.TRI_DATA = {
     "esforco": 94,
     "temp_c": 18.1,
     "vento_kmh": 5
-   },
-   {
-    "id": "20638682596",
-    "dia": "2026-10-18",
-    "modalidade": "Ciclismo",
-    "distancia": "90,2 km",
-    "tempo_s": 8899,
-    "ritmo": "36,5 km/h",
-    "esforco": 58,
-    "temp_c": 14.9,
-    "vento_kmh": 6
    }
   ],
   "historico": [
-   [
-    "2026-09-30",
-    "Ride",
-    123,
-    62.3,
-    55,
-    null,
-    8
-   ],
-   [
-    "2026-09-30",
-    "Swim",
-    25,
-    1250,
-    11,
-    120,
-    19
-   ],
    [
     "2026-10-01",
     "Run",
@@ -906,6 +893,15 @@ window.TRI_DATA = {
     5,
     6,
     383,
+    5
+   ],
+   [
+    "2026-11-12",
+    "Run",
+    42,
+    6.4,
+    40,
+    390,
     5
    ]
   ],
