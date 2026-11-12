@@ -1,38 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-11T03:43",
- "tpAtualizado": "11/11/2026 03:20",
+ "geradoEm": "2026-11-12T03:43",
+ "tpAtualizado": "12/11/2026 03:21",
  "tpTreinos": [
-  {
-   "id": "tp-20261111-1",
-   "dia": "2026-11-11",
-   "titulo": "Big gear 5x 5/5",
-   "sp": "bike",
-   "dur": 90,
-   "it": "forte",
-   "desc": "Aquec. 20 min leve (122–193 W); 5x 5 min big gear 248–288 W (Z4–Z5), marcha pesada e rotação baixa, com 5 min girando; desaquec. 20 min",
-   "fonte": "TrainingPeaks"
-  },
-  {
-   "id": "tp-20261111-2",
-   "dia": "2026-11-11",
-   "titulo": "T2",
-   "sp": "run",
-   "dur": 30,
-   "it": "forte",
-   "desc": "Transição após o pedal: 30 min a 5:05–5:28/km (Z3–Z5a), ~6,6 km",
-   "fonte": "TrainingPeaks"
-  },
-  {
-   "id": "tp-20261111-3",
-   "dia": "2026-11-11",
-   "titulo": "natação piscina 25 (Intervalos de intensidade)",
-   "sp": "swim",
-   "dur": 40,
-   "it": "forte",
-   "desc": "2000 m: 400 m leve; 4x100 m forte (1:30–1:34/100m), 10x50 m forte, 20x25 m forte; 200 m leve (duração estimada)",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261112-1",
    "dia": "2026-11-12",
@@ -40,25 +10,45 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 48,
    "it": "forte",
-   "desc": "10 min Z1; 4x800 m Z3 (5:05–5:28/km) p=1'; 4x400 m Z4–Z5 (4:25–4:59/km); 4x200 m Z5 (3:48–4:25/km); 5 min Z1",
+   "desc": "Aquec. 10min Z1; 4x800m Z3 (i=1' passiva), 4x400m Z4 (i=45\"), 4x200m Z5 (i=30\"); desaquec. 5min Z1. TSS não informado.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261113-1",
+   "dia": "2026-11-13",
+   "titulo": "Natação - SÃO MIGUEL",
+   "sp": "swim",
+   "dur": 40,
+   "it": "mod",
+   "desc": "2000 m contínuos a 1:35–1:43/100m (Z2–Z4). Duração estimada. TSS não informado.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261113-2",
+   "dia": "2026-11-13",
+   "titulo": "10km contínuos",
+   "sp": "run",
+   "dur": 65,
+   "it": "leve",
+   "desc": "10 km Z1–Z2 a 6:12–6:52/km. Duração estimada. TSS não informado.",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-11T03:43",
+  "geradoEm": "2026-11-12T03:43",
   "periodo": [
    {
     "metrica": "horas",
-    "atual": 19.3,
-    "anterior": 37.1,
-    "variacao": -0.48
+    "atual": 17.1,
+    "anterior": 38.9,
+    "variacao": -0.56
    },
    {
     "metrica": "natacao_km",
-    "atual": 9.8,
-    "anterior": 12.7,
-    "variacao": -0.228
+    "atual": 8.4,
+    "anterior": 13.2,
+    "variacao": -0.364
    },
    {
     "metrica": "ciclismo_km",
@@ -68,26 +58,18 @@ window.TRI_DATA = {
    },
    {
     "metrica": "corrida_km",
-    "atual": 81.4,
-    "anterior": 107.9,
-    "variacao": -0.246
+    "atual": 71.4,
+    "anterior": 112.7,
+    "variacao": -0.366
    },
    {
     "metrica": "esforco",
-    "atual": 609,
-    "anterior": 1115,
-    "variacao": -0.454
+    "atual": 525,
+    "anterior": 1101,
+    "variacao": -0.523
    }
   ],
   "semanas": [
-   {
-    "semana": "2026-08-17",
-    "natacao_h": 1.32,
-    "ciclismo_h": 9.33,
-    "corrida_h": 2.22,
-    "outros_h": 0.71,
-    "esforco": 335
-   },
    {
     "semana": "2026-08-24",
     "natacao_h": 0.69,
@@ -175,24 +157,26 @@ window.TRI_DATA = {
     "corrida_h": 1.84,
     "outros_h": 0,
     "esforco": 180
+   },
+   {
+    "semana": "2026-11-09",
+    "natacao_h": 0,
+    "ciclismo_h": 0,
+    "corrida_h": 0.54,
+    "outros_h": 0,
+    "esforco": 6
    }
   ],
   "carga": [
    {
-    "ate": "2026-11-07",
-    "agudo": 200,
-    "cronico": 152,
-    "razao": 1.32,
-    "status": "em atenção"
+    "ate": "2026-11-11",
+    "agudo": 85,
+    "cronico": 131,
+    "razao": 0.65,
+    "status": "abaixo do ideal"
    }
   ],
   "ritmos": [
-   {
-    "semana": "2026-08-17",
-    "corrida_s_km": 339,
-    "natacao_s_100m": 111,
-    "ciclismo_kmh": 28.5
-   },
    {
     "semana": "2026-08-24",
     "corrida_s_km": 349,
@@ -258,9 +242,20 @@ window.TRI_DATA = {
     "corrida_s_km": 321,
     "natacao_s_100m": 115,
     "ciclismo_kmh": 33.4
+   },
+   {
+    "semana": "2026-11-09",
+    "corrida_s_km": 383,
+    "natacao_s_100m": null,
+    "ciclismo_kmh": null
    }
   ],
   "corridas_clima": [
+   [
+    15,
+    383,
+    "2026-11-11"
+   ],
    [
     23.2,
     325,
@@ -374,10 +369,10 @@ window.TRI_DATA = {
   ],
   "efeito_calor": [
    {
-    "n": 22,
-    "seg_por_grau": 4.4,
-    "a": 237,
-    "b": 4.45
+    "n": 23,
+    "seg_por_grau": 3.1,
+    "a": 264.2,
+    "b": 3.12
    }
   ],
   "prova": [
@@ -413,6 +408,17 @@ window.TRI_DATA = {
    }
   ],
   "recentes": [
+   {
+    "id": "20943615216",
+    "dia": "2026-11-11",
+    "modalidade": "Corrida",
+    "distancia": "5 km",
+    "tempo_s": 1927,
+    "ritmo": "6:23/km",
+    "esforco": 6,
+    "temp_c": 15,
+    "vento_kmh": 3
+   },
    {
     "id": "20896066645",
     "dia": "2026-11-07",
@@ -566,83 +572,9 @@ window.TRI_DATA = {
     "esforco": 58,
     "temp_c": 14.9,
     "vento_kmh": 6
-   },
-   {
-    "id": "20646203686",
-    "dia": "2026-10-18",
-    "modalidade": "Natação",
-    "distancia": "1830 m",
-    "tempo_s": 2172,
-    "ritmo": "1:59/100 m",
-    "esforco": null,
-    "temp_c": null,
-    "vento_kmh": null
    }
   ],
   "historico": [
-   [
-    "2026-09-26",
-    "Swim",
-    31,
-    1366,
-    4,
-    137,
-    6
-   ],
-   [
-    "2026-09-26",
-    "Run",
-    82,
-    15.5,
-    93,
-    318,
-    7
-   ],
-   [
-    "2026-09-27",
-    "Ride",
-    165,
-    89.3,
-    51,
-    null,
-    6
-   ],
-   [
-    "2026-09-28",
-    "Run",
-    40,
-    7.1,
-    12,
-    338,
-    17
-   ],
-   [
-    "2026-09-28",
-    "Swim",
-    19,
-    975,
-    9,
-    115,
-    19
-   ],
-   [
-    "2026-09-29",
-    "VirtualRide",
-    60,
-    30.4,
-    19,
-    null,
-    9
-   ],
-   [
-    "2026-09-29",
-    "Run",
-    35,
-    4.8,
-    8,
-    435,
-    10
-   ],
    [
     "2026-09-30",
     "Ride",
@@ -966,6 +898,15 @@ window.TRI_DATA = {
     79,
     320,
     10
+   ],
+   [
+    "2026-11-11",
+    "Run",
+    32,
+    5,
+    6,
+    383,
+    5
    ]
   ],
   "recordes": [
