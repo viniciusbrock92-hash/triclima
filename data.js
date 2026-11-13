@@ -1,18 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-12T11:43",
- "tpAtualizado": "12/11/2026 03:21",
+ "geradoEm": "2026-11-13T03:45",
+ "tpAtualizado": "13/11/2026 03:20",
  "tpTreinos": [
-  {
-   "id": "tp-20261112-1",
-   "dia": "2026-11-12",
-   "titulo": "Intervalado - 4/4/4",
-   "sp": "run",
-   "dur": 48,
-   "it": "forte",
-   "desc": "Aquec. 10min Z1; 4x800m Z3 (i=1' passiva), 4x400m Z4 (i=45\"), 4x200m Z5 (i=30\"); desaquec. 5min Z1. TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261113-1",
    "dia": "2026-11-13",
@@ -32,11 +22,21 @@ window.TRI_DATA = {
    "it": "leve",
    "desc": "10 km Z1–Z2 a 6:12–6:52/km. Duração estimada. TSS não informado.",
    "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261114-1",
+   "dia": "2026-11-14",
+   "titulo": "TRANSIÇÃO - deltaville",
+   "sp": "brick",
+   "dur": 172,
+   "it": "mod",
+   "desc": "Baterias: 5x (10 km ciclismo + 2 km corrida). Duração estimada. TSS não informado.",
+   "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-12T11:43",
+  "geradoEm": "2026-11-13T03:45",
   "periodo": [
    {
     "metrica": "horas",
