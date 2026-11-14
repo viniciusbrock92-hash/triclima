@@ -1,28 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-13T03:45",
- "tpAtualizado": "13/11/2026 03:20",
+ "geradoEm": "2026-11-14T03:43",
+ "tpAtualizado": "14/11/2026 03:18",
  "tpTreinos": [
-  {
-   "id": "tp-20261113-1",
-   "dia": "2026-11-13",
-   "titulo": "Natação - SÃO MIGUEL",
-   "sp": "swim",
-   "dur": 40,
-   "it": "mod",
-   "desc": "2000 m contínuos a 1:35–1:43/100m (Z2–Z4). Duração estimada. TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
-  {
-   "id": "tp-20261113-2",
-   "dia": "2026-11-13",
-   "titulo": "10km contínuos",
-   "sp": "run",
-   "dur": 65,
-   "it": "leve",
-   "desc": "10 km Z1–Z2 a 6:12–6:52/km. Duração estimada. TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261114-1",
    "dia": "2026-11-14",
@@ -30,13 +10,23 @@ window.TRI_DATA = {
    "sp": "brick",
    "dur": 172,
    "it": "mod",
-   "desc": "Baterias: 5x (10 km ciclismo + 2 km corrida). Duração estimada. TSS não informado.",
+   "desc": "Baterias 5x (10 km ciclismo + 2 km corrida). Duração estimada pela distância; sem TSS informado.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261115-1",
+   "dia": "2026-11-15",
+   "titulo": "Ciclismo estímulos ritmo",
+   "sp": "bike",
+   "dur": 180,
+   "it": "forte",
+   "desc": "Aquecimento 30 min; 3x 30 min ritmo de prova (força controlada) c/ 10 min leve; desaquecimento 30 min. TSS 240.",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-13T03:45",
+  "geradoEm": "2026-11-14T03:43",
   "periodo": [
    {
     "metrica": "horas",
