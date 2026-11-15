@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-15T03:43",
+ "geradoEm": "2026-11-15T11:43",
  "tpAtualizado": "15/11/2026 03:19",
  "tpTreinos": [
   {
@@ -10,7 +10,7 @@ window.TRI_DATA = {
    "sp": "bike",
    "dur": 180,
    "it": "forte",
-   "desc": "Aquec. 30min; 3x 30min ritmo de prova (força controlada) c/ 10min bem leve; desaquec. 30min leve. TSS 240",
+   "desc": "Aquec. 30min rodando; 3x 30min ritmo de prova (força controlada) c/ 10min bem leve; desaquec. 30min leve. TSS 240",
    "fonte": "TrainingPeaks"
   }
  ],
@@ -18,7 +18,7 @@ window.TRI_DATA = {
   "2026-11-16"
  ],
  "strava": {
-  "geradoEm": "2026-11-15T03:43",
+  "geradoEm": "2026-11-15T11:43",
   "periodo": [
    {
     "metrica": "horas",
