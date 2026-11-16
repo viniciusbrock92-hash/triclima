@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-16T03:44",
+ "geradoEm": "2026-11-16T11:43",
  "tpAtualizado": "16/11/2026 03:19",
  "tpTreinos": [
   {
@@ -20,7 +20,7 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 45,
    "it": "leve",
-   "desc": "45min Z1 (7:16–8:28 /km)",
+   "desc": "45min Z1 (7:16–8:28 min/km)",
    "fonte": "TrainingPeaks"
   },
   {
@@ -36,7 +36,7 @@ window.TRI_DATA = {
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-16T03:44",
+  "geradoEm": "2026-11-16T11:43",
   "periodo": [
    {
     "metrica": "horas",
