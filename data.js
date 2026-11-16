@@ -1,24 +1,42 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-15T11:43",
- "tpAtualizado": "15/11/2026 03:19",
+ "geradoEm": "2026-11-16T03:44",
+ "tpAtualizado": "16/11/2026 03:19",
  "tpTreinos": [
   {
-   "id": "tp-20261115-1",
-   "dia": "2026-11-15",
-   "titulo": "Ciclismo estímulos ritmo",
+   "id": "tp-20261116-1",
+   "dia": "2026-11-16",
+   "titulo": "Natação piscina 25m (foco respiração)",
+   "sp": "swim",
+   "dur": 58,
+   "it": "mod",
+   "desc": "Aquec. 200m leve; respiração 6x100m (2x1 a 7x1) Z1–Z2; 2x 200m Z3 i=1:00; desaq. 200m solto",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261117-1",
+   "dia": "2026-11-17",
+   "titulo": "Corrida leve 45min",
+   "sp": "run",
+   "dur": 45,
+   "it": "leve",
+   "desc": "45min Z1 (7:16–8:28 /km)",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261117-2",
+   "dia": "2026-11-17",
+   "titulo": "Base ciclismo - 90min",
    "sp": "bike",
-   "dur": 180,
-   "it": "forte",
-   "desc": "Aquec. 30min rodando; 3x 30min ritmo de prova (força controlada) c/ 10min bem leve; desaquec. 30min leve. TSS 240",
+   "dur": 90,
+   "it": "leve",
+   "desc": "90min base a 122–209 W (Z1–Z3)",
    "fonte": "TrainingPeaks"
   }
  ],
- "tpDescanso": [
-  "2026-11-16"
- ],
+ "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-15T11:43",
+  "geradoEm": "2026-11-16T03:44",
   "periodo": [
    {
     "metrica": "horas",
