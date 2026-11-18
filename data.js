@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-18T03:44",
+ "geradoEm": "2026-11-18T11:46",
  "tpAtualizado": "18/11/2026 03:19",
  "tpTreinos": [
   {
@@ -10,7 +10,7 @@ window.TRI_DATA = {
    "sp": "swim",
    "dur": 40,
    "it": "forte",
-   "desc": "2000 m: aquecimento 500 m solto; 3x200 m moderado (i=1 min); 6x100 m forte (i=45 s); desaquecer 300 m leve. Duração estimada. TSS não informado.",
+   "desc": "2000 m: aquecimento 500m solto, 3x200m forte (Z5b-5c) i=1:00, 6x100m forte (Z5c) i=45s, desaquecer 300m leve. TSS não informado.",
    "fonte": "TrainingPeaks"
   },
   {
@@ -20,7 +20,7 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 59,
    "it": "forte",
-   "desc": "9 km: 2 km Z1; 5x (400 m Z4 a 4:25–4:59/km + 600 m Z2); 2 km Z1. Duração estimada. TSS não informado.",
+   "desc": "9 km: aquecimento 2 km Z1, 5x 400m forte (4:25-4:59/km) / 600m Z2, desaquecimento 2 km Z1. TSS não informado.",
    "fonte": "TrainingPeaks"
   },
   {
@@ -30,13 +30,13 @@ window.TRI_DATA = {
    "sp": "bike",
    "dur": 95,
    "it": "forte",
-   "desc": "20 min rodando (122–193 W); 10x 1 min forte/1 min leve; 7x 2 min forte/3 min leve (209–321 W); 20 min rodando. TSS não informado.",
+   "desc": "1h35: 20min rodando Z1-Z2, 10x 1min forte (242-321 W)/1min leve, 7x 2min forte (209-321 W)/3min leve, 20min rodando. TSS não informado.",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-18T03:44",
+  "geradoEm": "2026-11-18T11:46",
   "periodo": [
    {
     "metrica": "horas",
