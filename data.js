@@ -1,28 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-17T11:46",
- "tpAtualizado": "17/11/2026 03:21",
+ "geradoEm": "2026-11-18T03:44",
+ "tpAtualizado": "18/11/2026 03:19",
  "tpTreinos": [
-  {
-   "id": "tp-20261117-1",
-   "dia": "2026-11-17",
-   "titulo": "Corrida leve 45min",
-   "sp": "run",
-   "dur": 45,
-   "it": "leve",
-   "desc": "45min contínuos em Z1 (7:16–8:28/km). TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
-  {
-   "id": "tp-20261117-2",
-   "dia": "2026-11-17",
-   "titulo": "Base ciclismo - 90min",
-   "sp": "bike",
-   "dur": 90,
-   "it": "leve",
-   "desc": "90min de base a 122–209 W (Z1–Z3). TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261118-1",
    "dia": "2026-11-18",
@@ -30,7 +10,7 @@ window.TRI_DATA = {
    "sp": "swim",
    "dur": 40,
    "it": "forte",
-   "desc": "2000 m: aquec. 500m solto, 3x200m moderado (i=1min), 6x100m forte (i=45s), desaq. 300m leve. Duração estimada. TSS não informado.",
+   "desc": "2000 m: aquecimento 500 m solto; 3x200 m moderado (i=1 min); 6x100 m forte (i=45 s); desaquecer 300 m leve. Duração estimada. TSS não informado.",
    "fonte": "TrainingPeaks"
   },
   {
@@ -40,13 +20,23 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 59,
    "it": "forte",
-   "desc": "9 km: 2km Z1, 5x (400m Z4 4:25–4:59/km + 600m Z2), 2km Z1. Duração estimada. TSS não informado.",
+   "desc": "9 km: 2 km Z1; 5x (400 m Z4 a 4:25–4:59/km + 600 m Z2); 2 km Z1. Duração estimada. TSS não informado.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261119-1",
+   "dia": "2026-11-19",
+   "titulo": "Estímulos na série 2",
+   "sp": "bike",
+   "dur": 95,
+   "it": "forte",
+   "desc": "20 min rodando (122–193 W); 10x 1 min forte/1 min leve; 7x 2 min forte/3 min leve (209–321 W); 20 min rodando. TSS não informado.",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-17T11:46",
+  "geradoEm": "2026-11-18T03:44",
   "periodo": [
    {
     "metrica": "horas",
