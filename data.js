@@ -1,28 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-18T11:46",
- "tpAtualizado": "18/11/2026 03:19",
+ "geradoEm": "2026-11-19T03:46",
+ "tpAtualizado": "19/11/2026 03:20",
  "tpTreinos": [
-  {
-   "id": "tp-20261118-1",
-   "dia": "2026-11-18",
-   "titulo": "Natação piscina 25m (4x200 8x100m)",
-   "sp": "swim",
-   "dur": 40,
-   "it": "forte",
-   "desc": "2000 m: aquecimento 500m solto, 3x200m forte (Z5b-5c) i=1:00, 6x100m forte (Z5c) i=45s, desaquecer 300m leve. TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
-  {
-   "id": "tp-20261118-2",
-   "dia": "2026-11-18",
-   "titulo": "Fartlek 5 x 400m z4 /600m z2",
-   "sp": "run",
-   "dur": 59,
-   "it": "forte",
-   "desc": "9 km: aquecimento 2 km Z1, 5x 400m forte (4:25-4:59/km) / 600m Z2, desaquecimento 2 km Z1. TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261119-1",
    "dia": "2026-11-19",
@@ -30,31 +10,41 @@ window.TRI_DATA = {
    "sp": "bike",
    "dur": 95,
    "it": "forte",
-   "desc": "1h35: 20min rodando Z1-Z2, 10x 1min forte (242-321 W)/1min leve, 7x 2min forte (209-321 W)/3min leve, 20min rodando. TSS não informado.",
+   "desc": "Aquec. 20min Z1–Z2 (122–193 W); 10x 1min forte (242–321 W)/1min leve + 7x 2min forte (209–321 W)/3min leve; desaq. 20min. TSS não informado.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261120-1",
+   "dia": "2026-11-20",
+   "titulo": "Transição Jurerê",
+   "sp": "brick",
+   "dur": 260,
+   "it": "mod",
+   "desc": "40min natação + 60km ciclismo + 14km corrida (duração estimada). TSS não informado.",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-18T11:46",
+  "geradoEm": "2026-11-19T03:46",
   "periodo": [
    {
     "metrica": "horas",
-    "atual": 12.6,
-    "anterior": 37.3,
-    "variacao": -0.662
+    "atual": 12.7,
+    "anterior": 35.6,
+    "variacao": -0.643
    },
    {
     "metrica": "natacao_km",
-    "atual": 5.8,
-    "anterior": 15.3,
-    "variacao": -0.621
+    "atual": 6,
+    "anterior": 15.5,
+    "variacao": -0.613
    },
    {
     "metrica": "ciclismo_km",
     "atual": 174.6,
-    "anterior": 625.4,
-    "variacao": -0.721
+    "anterior": 570,
+    "variacao": -0.694
    },
    {
     "metrica": "corrida_km",
@@ -64,9 +54,9 @@ window.TRI_DATA = {
    },
    {
     "metrica": "esforco",
-    "atual": 451,
-    "anterior": 969,
-    "variacao": -0.535
+    "atual": 458,
+    "anterior": 931,
+    "variacao": -0.508
    }
   ],
   "semanas": [
@@ -160,19 +150,19 @@ window.TRI_DATA = {
    },
    {
     "semana": "2026-11-16",
-    "natacao_h": 0.28,
+    "natacao_h": 0.75,
     "ciclismo_h": 0,
     "corrida_h": 0.69,
     "outros_h": 0,
-    "esforco": 58
+    "esforco": 75
    }
   ],
   "carga": [
    {
-    "ate": "2026-11-17",
-    "agudo": 104,
-    "cronico": 113,
-    "razao": 0.92,
+    "ate": "2026-11-18",
+    "agudo": 115,
+    "cronico": 115,
+    "razao": 1,
     "status": "na faixa ideal"
    }
   ],
@@ -246,7 +236,7 @@ window.TRI_DATA = {
    {
     "semana": "2026-11-16",
     "corrida_s_km": 312,
-    "natacao_s_100m": 136,
+    "natacao_s_100m": 123,
     "ciclismo_kmh": null
    }
   ],
@@ -292,6 +282,17 @@ window.TRI_DATA = {
    }
   ],
   "recentes": [
+   {
+    "id": "21040529775",
+    "dia": "2026-11-18",
+    "modalidade": "Natação",
+    "distancia": "1450 m",
+    "tempo_s": 1688,
+    "ritmo": "1:56/100 m",
+    "esforco": 17,
+    "temp_c": null,
+    "vento_kmh": null
+   },
    {
     "id": "21018676545",
     "dia": "2026-11-17",
@@ -445,29 +446,9 @@ window.TRI_DATA = {
     "esforco": 8,
     "temp_c": null,
     "vento_kmh": null
-   },
-   {
-    "id": "20681269776",
-    "dia": "2026-10-21",
-    "modalidade": "Natação",
-    "distancia": "1275 m",
-    "tempo_s": 1364,
-    "ritmo": "1:47/100 m",
-    "esforco": 10,
-    "temp_c": null,
-    "vento_kmh": null
    }
   ],
   "historico": [
-   [
-    "2026-10-06",
-    "Run",
-    45,
-    7.3,
-    18,
-    372,
-    16
-   ],
    [
     "2026-10-07",
     "Ride",
@@ -737,6 +718,15 @@ window.TRI_DATA = {
     51,
     312,
     5
+   ],
+   [
+    "2026-11-18",
+    "Swim",
+    28,
+    1450,
+    17,
+    116,
+    19
    ]
   ],
   "recordes": [
