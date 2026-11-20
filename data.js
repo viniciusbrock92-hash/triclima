@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-20T03:47",
+ "geradoEm": "2026-11-20T11:46",
  "tpAtualizado": "20/11/2026 03:20",
  "tpTreinos": [
   {
@@ -26,7 +26,7 @@ window.TRI_DATA = {
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-20T03:47",
+  "geradoEm": "2026-11-20T11:46",
   "periodo": [
    {
     "metrica": "horas",
