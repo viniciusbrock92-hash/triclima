@@ -1,18 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-19T11:46",
- "tpAtualizado": "19/11/2026 03:20",
+ "geradoEm": "2026-11-20T03:47",
+ "tpAtualizado": "20/11/2026 03:20",
  "tpTreinos": [
-  {
-   "id": "tp-20261119-1",
-   "dia": "2026-11-19",
-   "titulo": "Estímulos na série 2",
-   "sp": "bike",
-   "dur": 95,
-   "it": "forte",
-   "desc": "Aquec. 20min Z1–Z2 (122–193 W); 10x 1min forte (242–321 W)/1min leve + 7x 2min forte (209–321 W)/3min leve; desaq. 20min. TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261120-1",
    "dia": "2026-11-20",
@@ -22,11 +12,21 @@ window.TRI_DATA = {
    "it": "mod",
    "desc": "40min natação + 60km ciclismo + 14km corrida (duração estimada). TSS não informado.",
    "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261121-1",
+   "dia": "2026-11-21",
+   "titulo": "10km contínuos",
+   "sp": "run",
+   "dur": 65,
+   "it": "leve",
+   "desc": "10km contínuos Z1–Z2 (6:12–6:52 min/km); duração estimada. TSS não informado.",
+   "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-19T11:46",
+  "geradoEm": "2026-11-20T03:47",
   "periodo": [
    {
     "metrica": "horas",
