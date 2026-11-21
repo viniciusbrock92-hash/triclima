@@ -1,18 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-20T11:46",
- "tpAtualizado": "20/11/2026 03:20",
+ "geradoEm": "2026-11-21T03:46",
+ "tpAtualizado": "21/11/2026 03:19",
  "tpTreinos": [
-  {
-   "id": "tp-20261120-1",
-   "dia": "2026-11-20",
-   "titulo": "Transição Jurerê",
-   "sp": "brick",
-   "dur": 260,
-   "it": "mod",
-   "desc": "40min natação + 60km ciclismo + 14km corrida (duração estimada). TSS não informado.",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261121-1",
    "dia": "2026-11-21",
@@ -20,13 +10,15 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 65,
    "it": "leve",
-   "desc": "10km contínuos Z1–Z2 (6:12–6:52 min/km); duração estimada. TSS não informado.",
+   "desc": "10 km contínuos em Z1–Z2 a 06:12–06:52 min/km (TSS não informado)",
    "fonte": "TrainingPeaks"
   }
  ],
- "tpDescanso": [],
+ "tpDescanso": [
+  "2026-11-22"
+ ],
  "strava": {
-  "geradoEm": "2026-11-20T11:46",
+  "geradoEm": "2026-11-21T03:46",
   "periodo": [
    {
     "metrica": "horas",
