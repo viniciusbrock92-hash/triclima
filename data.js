@@ -1,16 +1,26 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-21T11:43",
- "tpAtualizado": "21/11/2026 03:19",
+ "geradoEm": "2026-11-22T03:45",
+ "tpAtualizado": "22/11/2026 03:18",
  "tpTreinos": [
   {
-   "id": "tp-20261121-1",
-   "dia": "2026-11-21",
-   "titulo": "10km contínuos",
+   "id": "tp-20261123-1",
+   "dia": "2026-11-23",
+   "titulo": "Natação piscina pirâmide",
+   "sp": "swim",
+   "dur": 32,
+   "it": "forte",
+   "desc": "1600 m: aquecimento 200 m solto; pirâmide 100 leve/200 moderado/300 forte/300 leve/200 moderado/100 forte (Z4–Z5b nos fortes); 200 m solto.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261123-2",
+   "dia": "2026-11-23",
+   "titulo": "Aeróbio base - 35min",
    "sp": "run",
-   "dur": 65,
+   "dur": 35,
    "it": "leve",
-   "desc": "10 km contínuos em Z1–Z2 a 06:12–06:52 min/km (TSS não informado)",
+   "desc": "35' em Z2 (5:47–7:16/km) para resistência aeróbia. TSS 39.8.",
    "fonte": "TrainingPeaks"
   }
  ],
@@ -18,7 +28,7 @@ window.TRI_DATA = {
   "2026-11-22"
  ],
  "strava": {
-  "geradoEm": "2026-11-21T11:43",
+  "geradoEm": "2026-11-22T03:45",
   "periodo": [
    {
     "metrica": "horas",
