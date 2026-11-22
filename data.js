@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-22T03:45",
+ "geradoEm": "2026-11-22T11:45",
  "tpAtualizado": "22/11/2026 03:18",
  "tpTreinos": [
   {
@@ -10,7 +10,7 @@ window.TRI_DATA = {
    "sp": "swim",
    "dur": 32,
    "it": "forte",
-   "desc": "1600 m: aquecimento 200 m solto; pirâmide 100 leve/200 moderado/300 forte/300 leve/200 moderado/100 forte (Z4–Z5b nos fortes); 200 m solto.",
+   "desc": "1600 m: aquec. 200 m solto; pirâmide 100 leve/200 mod/300 forte/300 leve/200 mod/100 forte (forte Z4–Z5b, 1:27–1:32/100 m); desaq. 200 m. TSS não informado.",
    "fonte": "TrainingPeaks"
   },
   {
@@ -20,7 +20,7 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 35,
    "it": "leve",
-   "desc": "35' em Z2 (5:47–7:16/km) para resistência aeróbia. TSS 39.8.",
+   "desc": "35' contínuos em Z2 (5:47–7:16/km) para resistência aeróbia. TSS 39.8.",
    "fonte": "TrainingPeaks"
   }
  ],
@@ -28,37 +28,37 @@ window.TRI_DATA = {
   "2026-11-22"
  ],
  "strava": {
-  "geradoEm": "2026-11-22T03:45",
+  "geradoEm": "2026-11-22T11:45",
   "periodo": [
    {
     "metrica": "horas",
-    "atual": 12.7,
-    "anterior": 35.6,
-    "variacao": -0.643
+    "atual": 15.6,
+    "anterior": 32.6,
+    "variacao": -0.521
    },
    {
     "metrica": "natacao_km",
     "atual": 6,
-    "anterior": 15.5,
-    "variacao": -0.613
+    "anterior": 13.1,
+    "variacao": -0.542
    },
    {
     "metrica": "ciclismo_km",
-    "atual": 174.6,
+    "atual": 260.3,
     "anterior": 570,
-    "variacao": -0.694
+    "variacao": -0.543
    },
    {
     "metrica": "corrida_km",
     "atual": 56.8,
-    "anterior": 119.6,
-    "variacao": -0.525
+    "anterior": 94,
+    "variacao": -0.396
    },
    {
     "metrica": "esforco",
-    "atual": 458,
-    "anterior": 931,
-    "variacao": -0.508
+    "atual": 574,
+    "anterior": 803,
+    "variacao": -0.285
    }
   ],
   "semanas": [
@@ -153,19 +153,19 @@ window.TRI_DATA = {
    {
     "semana": "2026-11-16",
     "natacao_h": 0.75,
-    "ciclismo_h": 0,
+    "ciclismo_h": 2.96,
     "corrida_h": 0.69,
     "outros_h": 0,
-    "esforco": 75
+    "esforco": 191
    }
   ],
   "carga": [
    {
-    "ate": "2026-11-18",
-    "agudo": 115,
-    "cronico": 115,
-    "razao": 1,
-    "status": "na faixa ideal"
+    "ate": "2026-11-21",
+    "agudo": 191,
+    "cronico": 144,
+    "razao": 1.33,
+    "status": "em atenção"
    }
   ],
   "ritmos": [
@@ -239,7 +239,7 @@ window.TRI_DATA = {
     "semana": "2026-11-16",
     "corrida_s_km": 312,
     "natacao_s_100m": 123,
-    "ciclismo_kmh": null
+    "ciclismo_kmh": 29
    }
   ],
   "corridas_clima": [],
@@ -284,6 +284,17 @@ window.TRI_DATA = {
    }
   ],
   "recentes": [
+   {
+    "id": "21081205209",
+    "dia": "2026-11-21",
+    "modalidade": "Ciclismo",
+    "distancia": "85,7 km",
+    "tempo_s": 10645,
+    "ritmo": "29 km/h",
+    "esforco": 116,
+    "temp_c": null,
+    "vento_kmh": null
+   },
    {
     "id": "21040529775",
     "dia": "2026-11-18",
@@ -437,65 +448,9 @@ window.TRI_DATA = {
     "esforco": 25,
     "temp_c": null,
     "vento_kmh": null
-   },
-   {
-    "id": "20745227251",
-    "dia": "2026-10-26",
-    "modalidade": "Natação",
-    "distancia": "1225 m",
-    "tempo_s": 1367,
-    "ritmo": "1:52/100 m",
-    "esforco": 8,
-    "temp_c": null,
-    "vento_kmh": null
    }
   ],
   "historico": [
-   [
-    "2026-10-07",
-    "Ride",
-    138,
-    74,
-    40,
-    null,
-    7
-   ],
-   [
-    "2026-10-07",
-    "HighIntensityIntervalTraining",
-    73,
-    0,
-    12,
-    null,
-    13
-   ],
-   [
-    "2026-10-07",
-    "Swim",
-    33,
-    1750,
-    12,
-    112,
-    19
-   ],
-   [
-    "2026-10-09",
-    "Ride",
-    83,
-    45.8,
-    28,
-    null,
-    11
-   ],
-   [
-    "2026-10-09",
-    "Run",
-    75,
-    15,
-    112,
-    301,
-    18
-   ],
    [
     "2026-10-13",
     "Run",
@@ -729,6 +684,15 @@ window.TRI_DATA = {
     17,
     116,
     19
+   ],
+   [
+    "2026-11-21",
+    "Ride",
+    177,
+    85.7,
+    116,
+    null,
+    13
    ]
   ],
   "recordes": [
