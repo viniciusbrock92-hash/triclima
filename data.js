@@ -1,10 +1,20 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-22T11:45",
- "tpAtualizado": "22/11/2026 03:18",
+ "geradoEm": "2026-11-23T03:44",
+ "tpAtualizado": "23/11/2026 03:20",
  "tpTreinos": [
   {
    "id": "tp-20261123-1",
+   "dia": "2026-11-23",
+   "titulo": "Aeróbio base - 35min",
+   "sp": "run",
+   "dur": 35,
+   "it": "leve",
+   "desc": "35' contínuos em Z2 (5:47–7:16/km) para resistência aeróbia. TSS 39.8.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261123-2",
    "dia": "2026-11-23",
    "titulo": "Natação piscina pirâmide",
    "sp": "swim",
@@ -14,21 +24,19 @@ window.TRI_DATA = {
    "fonte": "TrainingPeaks"
   },
   {
-   "id": "tp-20261123-2",
-   "dia": "2026-11-23",
-   "titulo": "Aeróbio base - 35min",
-   "sp": "run",
-   "dur": 35,
+   "id": "tp-20261124-1",
+   "dia": "2026-11-24",
+   "titulo": "Base ciclismo 80min - W",
+   "sp": "bike",
+   "dur": 80,
    "it": "leve",
-   "desc": "35' contínuos em Z2 (5:47–7:16/km) para resistência aeróbia. TSS 39.8.",
+   "desc": "1h20min contínuos em Z2 (190–226 W). TSS 78.2.",
    "fonte": "TrainingPeaks"
   }
  ],
- "tpDescanso": [
-  "2026-11-22"
- ],
+ "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-22T11:45",
+  "geradoEm": "2026-11-23T03:44",
   "periodo": [
    {
     "metrica": "horas",
