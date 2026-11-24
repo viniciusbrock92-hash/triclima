@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-24T03:43",
+ "geradoEm": "2026-11-24T11:43",
  "tpAtualizado": "24/11/2026 03:19",
  "tpTreinos": [
   {
@@ -10,7 +10,7 @@ window.TRI_DATA = {
    "sp": "bike",
    "dur": 80,
    "it": "leve",
-   "desc": "1h20min contínuos em Z2 (190–226 W). TSS 78.2.",
+   "desc": "1h20 em Z2 (190–226 W). TSS 78.2",
    "fonte": "TrainingPeaks"
   },
   {
@@ -20,7 +20,7 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 40,
    "it": "leve",
-   "desc": "40' contínuos em Z2 (5:47–7:16/km) para resistência aeróbia. TSS 45.6.",
+   "desc": "40' contínuos em Z2 (5:47–7:16/km), foco em resistência. TSS 45.6",
    "fonte": "TrainingPeaks"
   },
   {
@@ -29,14 +29,14 @@ window.TRI_DATA = {
    "titulo": "Natação piscina 25m (foco respiração)",
    "sp": "swim",
    "dur": 39,
-   "it": "mod",
-   "desc": "Aquec. 200 m leve; respiração 6×100 m (2x1 a 7x1, i=40s); 2×200 m Z3 (1:36–1:42/100 m) i=1:00; desaq. 200 m solto. TSS não informado.",
+   "it": "leve",
+   "desc": "200 m aquec.; 6×100 m educativo de respiração (2x1 a 7x1); 2×200 m Z3 i=1'; 200 m solto",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-24T03:43",
+  "geradoEm": "2026-11-24T11:43",
   "periodo": [
    {
     "metrica": "horas",
