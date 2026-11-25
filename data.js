@@ -1,18 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-24T11:43",
- "tpAtualizado": "24/11/2026 03:19",
+ "geradoEm": "2026-11-25T03:43",
+ "tpAtualizado": "25/11/2026 03:18",
  "tpTreinos": [
-  {
-   "id": "tp-20261124-1",
-   "dia": "2026-11-24",
-   "titulo": "Base ciclismo 80min - W",
-   "sp": "bike",
-   "dur": 80,
-   "it": "leve",
-   "desc": "1h20 em Z2 (190–226 W). TSS 78.2",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261125-1",
    "dia": "2026-11-25",
@@ -20,7 +10,7 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 40,
    "it": "leve",
-   "desc": "40' contínuos em Z2 (5:47–7:16/km), foco em resistência. TSS 45.6",
+   "desc": "Corrida contínua 40' em Z2 (5:47–7:16/km) para resistência aeróbia. TSS 45.6",
    "fonte": "TrainingPeaks"
   },
   {
@@ -29,14 +19,24 @@ window.TRI_DATA = {
    "titulo": "Natação piscina 25m (foco respiração)",
    "sp": "swim",
    "dur": 39,
+   "it": "mod",
+   "desc": "Aquec. 200m leve; 6x100m respiração 2x1 a 7x1; 2x200m Z3 (1:36–1:42/100m) i=1'; solto 200m.",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261126-1",
+   "dia": "2026-11-26",
+   "titulo": "Base ciclismo - 90min - W",
+   "sp": "bike",
+   "dur": 90,
    "it": "leve",
-   "desc": "200 m aquec.; 6×100 m educativo de respiração (2x1 a 7x1); 2×200 m Z3 i=1'; 200 m solto",
+   "desc": "1h30 em Z2 (190–226 W). TSS 88.1",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-24T11:43",
+  "geradoEm": "2026-11-25T03:43",
   "periodo": [
    {
     "metrica": "horas",
