@@ -1,28 +1,8 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-25T11:43",
- "tpAtualizado": "25/11/2026 03:18",
+ "geradoEm": "2026-11-26T03:43",
+ "tpAtualizado": "26/11/2026 03:18",
  "tpTreinos": [
-  {
-   "id": "tp-20261125-1",
-   "dia": "2026-11-25",
-   "titulo": "Aeróbio base - 40min",
-   "sp": "run",
-   "dur": 40,
-   "it": "leve",
-   "desc": "Corrida contínua 40' em Z2 (5:47–7:16/km) para resistência aeróbia. TSS 45.6",
-   "fonte": "TrainingPeaks"
-  },
-  {
-   "id": "tp-20261125-2",
-   "dia": "2026-11-25",
-   "titulo": "Natação piscina 25m (foco respiração)",
-   "sp": "swim",
-   "dur": 39,
-   "it": "mod",
-   "desc": "Aquec. 200m leve; 6x100m respiração 2x1 a 7x1; 2x200m Z3 (1:36–1:42/100m) i=1'; solto 200m.",
-   "fonte": "TrainingPeaks"
-  },
   {
    "id": "tp-20261126-1",
    "dia": "2026-11-26",
@@ -30,43 +10,53 @@ window.TRI_DATA = {
    "sp": "bike",
    "dur": 90,
    "it": "leve",
-   "desc": "1h30 em Z2 (190–226 W). TSS 88.1",
+   "desc": "1h30 em Z2 (190–226 W) · TSS 88",
+   "fonte": "TrainingPeaks"
+  },
+  {
+   "id": "tp-20261127-1",
+   "dia": "2026-11-27",
+   "titulo": "Natação Z1",
+   "sp": "swim",
+   "dur": 30,
+   "it": "leve",
+   "desc": "1500 m contínuos em Z1 (duração estimada)",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-25T11:43",
+  "geradoEm": "2026-11-26T03:43",
   "periodo": [
    {
     "metrica": "horas",
-    "atual": 16.3,
-    "anterior": 29.2,
-    "variacao": -0.442
+    "atual": 13.8,
+    "anterior": 28.1,
+    "variacao": -0.509
    },
    {
     "metrica": "natacao_km",
-    "atual": 6.2,
-    "anterior": 13.3,
-    "variacao": -0.534
+    "atual": 6.8,
+    "anterior": 13.1,
+    "variacao": -0.481
    },
    {
     "metrica": "ciclismo_km",
-    "atual": 260.3,
-    "anterior": 480.6,
-    "variacao": -0.458
+    "atual": 203.4,
+    "anterior": 444.8,
+    "variacao": -0.543
    },
    {
     "metrica": "corrida_km",
-    "atual": 62.3,
-    "anterior": 86.9,
-    "variacao": -0.283
+    "atual": 53.6,
+    "anterior": 90.7,
+    "variacao": -0.409
    },
    {
     "metrica": "esforco",
-    "atual": 604,
-    "anterior": 739,
-    "variacao": -0.183
+    "atual": 532,
+    "anterior": 733,
+    "variacao": -0.274
    }
   ],
   "semanas": [
@@ -160,20 +150,20 @@ window.TRI_DATA = {
    },
    {
     "semana": "2026-11-23",
-    "natacao_h": 0.44,
+    "natacao_h": 0.96,
     "ciclismo_h": 0,
     "corrida_h": 0.58,
     "outros_h": 0,
-    "esforco": 38
+    "esforco": 53
    }
   ],
   "carga": [
    {
-    "ate": "2026-11-23",
-    "agudo": 222,
-    "cronico": 151,
-    "razao": 1.47,
-    "status": "em atenção"
+    "ate": "2026-11-25",
+    "agudo": 169,
+    "cronico": 133,
+    "razao": 1.27,
+    "status": "na faixa ideal"
    }
   ],
   "ritmos": [
@@ -246,7 +236,7 @@ window.TRI_DATA = {
    {
     "semana": "2026-11-23",
     "corrida_s_km": 381,
-    "natacao_s_100m": 111,
+    "natacao_s_100m": 112,
     "ciclismo_kmh": null
    }
   ],
@@ -292,6 +282,17 @@ window.TRI_DATA = {
    }
   ],
   "recentes": [
+   {
+    "id": "21125497932",
+    "dia": "2026-11-25",
+    "modalidade": "Natação",
+    "distancia": "1675 m",
+    "tempo_s": 1882,
+    "ritmo": "1:52/100 m",
+    "esforco": 15,
+    "temp_c": null,
+    "vento_kmh": null
+   },
    {
     "id": "21101131628",
     "dia": "2026-11-23",
@@ -445,29 +446,9 @@ window.TRI_DATA = {
     "esforco": 42,
     "temp_c": null,
     "vento_kmh": null
-   },
-   {
-    "id": "20774469035",
-    "dia": "2026-10-28",
-    "modalidade": "Natação",
-    "distancia": "1050 m",
-    "tempo_s": 1031,
-    "ritmo": "1:38/100 m",
-    "esforco": 12,
-    "temp_c": null,
-    "vento_kmh": null
    }
   ],
   "historico": [
-   [
-    "2026-10-13",
-    "Run",
-    47,
-    8,
-    41,
-    354,
-    6
-   ],
    [
     "2026-10-14",
     "HighIntensityIntervalTraining",
@@ -718,6 +699,15 @@ window.TRI_DATA = {
     5.5,
     21,
     381,
+    19
+   ],
+   [
+    "2026-11-25",
+    "Swim",
+    31,
+    1675,
+    15,
+    112,
     19
    ]
   ],
