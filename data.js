@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-26T03:43",
+ "geradoEm": "2026-11-26T11:43",
  "tpAtualizado": "26/11/2026 03:18",
  "tpTreinos": [
   {
@@ -10,7 +10,7 @@ window.TRI_DATA = {
    "sp": "bike",
    "dur": 90,
    "it": "leve",
-   "desc": "1h30 em Z2 (190–226 W) · TSS 88",
+   "desc": "1h30min em Z2 a 190–226 W. TSS 88.1",
    "fonte": "TrainingPeaks"
   },
   {
@@ -20,13 +20,13 @@ window.TRI_DATA = {
    "sp": "swim",
    "dur": 30,
    "it": "leve",
-   "desc": "1500 m contínuos em Z1 (duração estimada)",
+   "desc": "1500 m contínuos em Z1 (RPE 1–8)",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-26T03:43",
+  "geradoEm": "2026-11-26T11:43",
   "periodo": [
    {
     "metrica": "horas",
