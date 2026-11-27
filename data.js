@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-27T03:43",
+ "geradoEm": "2026-11-27T11:43",
  "tpAtualizado": "27/11/2026 03:18",
  "tpTreinos": [
   {
@@ -10,7 +10,7 @@ window.TRI_DATA = {
    "sp": "swim",
    "dur": 30,
    "it": "leve",
-   "desc": "1500 m contínuos em Z1 (RPE 1-8). Sem TSS informado.",
+   "desc": "1500 m contínuos em Z1 (RPE 1-8)",
    "fonte": "TrainingPeaks"
   },
   {
@@ -20,19 +20,19 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 65,
    "it": "leve",
-   "desc": "10 km em Z1–Z2 a 6:12–6:52 min/km. Sem TSS informado.",
+   "desc": "10 km em Z1–Z2 a 6:12–6:52 /km",
    "fonte": "TrainingPeaks"
   }
  ],
  "tpDescanso": [],
  "strava": {
-  "geradoEm": "2026-11-27T03:43",
+  "geradoEm": "2026-11-27T11:43",
   "periodo": [
    {
     "metrica": "horas",
-    "atual": 13.8,
-    "anterior": 28.1,
-    "variacao": -0.509
+    "atual": 14.4,
+    "anterior": 25.9,
+    "variacao": -0.444
    },
    {
     "metrica": "natacao_km",
@@ -42,21 +42,21 @@ window.TRI_DATA = {
    },
    {
     "metrica": "ciclismo_km",
-    "atual": 203.4,
-    "anterior": 444.8,
-    "variacao": -0.543
+    "atual": 249.3,
+    "anterior": 382.7,
+    "variacao": -0.349
    },
    {
     "metrica": "corrida_km",
-    "atual": 53.6,
-    "anterior": 90.7,
-    "variacao": -0.409
+    "atual": 45.5,
+    "anterior": 88.8,
+    "variacao": -0.488
    },
    {
     "metrica": "esforco",
     "atual": 532,
-    "anterior": 733,
-    "variacao": -0.274
+    "anterior": 734,
+    "variacao": -0.275
    }
   ],
   "semanas": [
@@ -151,19 +151,19 @@ window.TRI_DATA = {
    {
     "semana": "2026-11-23",
     "natacao_h": 0.96,
-    "ciclismo_h": 0,
+    "ciclismo_h": 1.34,
     "corrida_h": 0.58,
     "outros_h": 0,
-    "esforco": 53
+    "esforco": 95
    }
   ],
   "carga": [
    {
-    "ate": "2026-11-25",
-    "agudo": 169,
+    "ate": "2026-11-27",
+    "agudo": 211,
     "cronico": 133,
-    "razao": 1.27,
-    "status": "na faixa ideal"
+    "razao": 1.59,
+    "status": "alta, risco de lesão"
    }
   ],
   "ritmos": [
@@ -237,7 +237,7 @@ window.TRI_DATA = {
     "semana": "2026-11-23",
     "corrida_s_km": 381,
     "natacao_s_100m": 112,
-    "ciclismo_kmh": null
+    "ciclismo_kmh": 34.1
    }
   ],
   "corridas_clima": [],
@@ -282,6 +282,17 @@ window.TRI_DATA = {
    }
   ],
   "recentes": [
+   {
+    "id": "21140628863",
+    "dia": "2026-11-27",
+    "modalidade": "Ciclismo",
+    "distancia": "45,8 km",
+    "tempo_s": 4837,
+    "ritmo": "34,1 km/h",
+    "esforco": 42,
+    "temp_c": null,
+    "vento_kmh": null
+   },
    {
     "id": "21125497932",
     "dia": "2026-11-25",
@@ -435,56 +446,9 @@ window.TRI_DATA = {
     "esforco": 20,
     "temp_c": null,
     "vento_kmh": null
-   },
-   {
-    "id": "20784422600",
-    "dia": "2026-10-29",
-    "modalidade": "Corrida",
-    "distancia": "8,1 km",
-    "tempo_s": 2621,
-    "ritmo": "5:24/km",
-    "esforco": 42,
-    "temp_c": null,
-    "vento_kmh": null
    }
   ],
   "historico": [
-   [
-    "2026-10-14",
-    "HighIntensityIntervalTraining",
-    57,
-    0,
-    10,
-    null,
-    11
-   ],
-   [
-    "2026-10-14",
-    "Swim",
-    25,
-    1375,
-    12,
-    109,
-    19
-   ],
-   [
-    "2026-10-14",
-    "Run",
-    38,
-    7,
-    27,
-    324,
-    20
-   ],
-   [
-    "2026-10-15",
-    "Run",
-    30,
-    5.3,
-    8,
-    343,
-    6
-   ],
    [
     "2026-10-17",
     "Run",
@@ -709,6 +673,15 @@ window.TRI_DATA = {
     15,
     112,
     19
+   ],
+   [
+    "2026-11-27",
+    "Ride",
+    81,
+    45.8,
+    42,
+    null,
+    4
    ]
   ],
   "recordes": [
