@@ -1,6 +1,6 @@
 // Gerado automaticamente. Não edite à mão.
 window.TRI_DATA = {
- "geradoEm": "2026-11-28T03:43",
+ "geradoEm": "2026-11-28T11:43",
  "tpAtualizado": "28/11/2026 03:18",
  "tpTreinos": [
   {
@@ -10,7 +10,7 @@ window.TRI_DATA = {
    "sp": "run",
    "dur": 65,
    "it": "leve",
-   "desc": "Série principal: 10 km em Z1–Z2 (6:12–6:52 min/km). Sem TSS informado.",
+   "desc": "10 km contínuos em Z1–Z2 (6:12–6:52 /km). TSS não informado.",
    "fonte": "TrainingPeaks"
   }
  ],
@@ -18,7 +18,7 @@ window.TRI_DATA = {
   "2026-11-29"
  ],
  "strava": {
-  "geradoEm": "2026-11-28T03:43",
+  "geradoEm": "2026-11-28T11:43",
   "periodo": [
    {
     "metrica": "horas",
